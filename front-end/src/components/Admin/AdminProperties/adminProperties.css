@@ -1,0 +1,85 @@
+.adminHome_section {
+   width: 100%;
+   margin: 60px auto;
+   background-color: rgb(235, 232, 232);
+   padding-top: 50px;
+   display: flex;
+   border: 3px solid rgb(38, 0, 255);
+   flex-direction: column;
+   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+ }
+ .adminHome_section h2 {
+   text-align: center;
+ }
+ 
+ .adminHome_section .content_block{
+   border: 2px solid red;
+   display: flex;
+  flex-direction: column;
+ }
+ .adminHome_section .map_container{
+   width: 900px;
+   height: 380px;
+   overflow: hidden;
+   border-radius: 15px;
+   margin: 30px auto;
+   border: 1px solid rgb(209, 208, 208);
+ }
+
+ .adminHome_section .products_container {
+   width: 80%;
+   display: flex;
+   flex-wrap: wrap;
+   margin: 40px auto;
+   border: 6px solid rgb(0, 255, 85);
+ }
+ 
+ .adminHome_section .product_card {
+   border: 1px solid #ccc;
+   border-radius: 10px;
+   padding: 20px;
+   margin: 20px;
+   width: 300px;
+ }
+ 
+ 
+ .adminHome_section .product_images {
+   overflow: hidden;
+   width: 250px;
+   height: 200px;
+ }
+
+ .adminHome_section .product_image {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+   border-radius: 7px;
+ }
+ 
+ 
+ .adminHome_section .product_card button {
+   width: 80px;
+   background-color: #014e38;
+   color: white;
+   border-radius: 5px;
+   border: 1px solid #014e38;
+   padding: 10px 12px;
+   transition: 100ms;
+   margin-top: 10px;
+   cursor: pointer;
+ }
+ .adminHome_section .product_card button:hover {
+   background-color: white;
+   color: #014e38;
+   font-weight: 500;
+ }
+ .adminHome_section .product_title {
+   border-bottom: 1px solid rgb(196, 195, 195);
+ }
+ 
+ .adminHome_section .product_address {
+   margin-top: 5px;
+   margin-bottom: 10px;
+   border-bottom: 1px solid rgb(196, 195, 195);
+ }
+ 

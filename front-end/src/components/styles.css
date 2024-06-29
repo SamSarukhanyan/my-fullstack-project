@@ -1,0 +1,139 @@
+/* styles.css */
+
+
+
+
+/* home_section */
+
+
+
+
+
+
+
+
+
+/* Not Found  */
+
+
+/* button */
+
+
+
+
+/* edit_product */
+.edit_product {
+  width: 80%;
+  border: 1px solid black;
+  height: auto;
+  margin: 100px auto;
+}
+.edit_product h1 {
+  text-align: center;
+}
+.edit_product div {
+  margin-top: 15px;
+}
+.edit_product input {
+  width: 60%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid black;
+  margin-left: 5px;
+  font-size: 16px;
+}
+.edit_product button {
+  font-weight: 550;
+  font-size: 15px;
+  margin: 10px;
+  cursor: pointer;
+  background-color: #014e38;
+  color: white;
+  border-radius: 5px;
+  border: 1px solid #014e38;
+
+  padding: 10px 12px;
+  transition: 100ms;
+}
+.edit_product button:hover {
+  background-color: white;
+  border: 1px solid #014e38;
+  color: #014e38;
+}
+
+/* contact-form */
+
+.contact-form {
+  background-color: #014e38;
+  margin: 50px auto;
+  margin-bottom: 300px;
+  padding: 20px;
+  width: 70%;
+  border: 1px solid black;
+  font-size: 18px;
+  border-radius: 20px;
+}
+.contact-form h3 {
+  text-align: center;
+  color: white;
+}
+.contact-form form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+.contact-form form div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.contact-form form label {
+  color: white;
+  font-size: 16px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+.contact-form form textarea {
+  margin-top: 20px;
+  font-size: 16px;
+}
+.babel {
+  width: 150px;
+}
+.contact-form form input {
+  font-size: 15px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  margin: 10px;
+  padding: 10px 5px;
+  border-radius: 5px;
+  width: 350px;
+  border: 1px solid rgb(95, 95, 95);
+}
+.contact-form form button {
+  padding: 10px 20px;
+  background-color: #014e38;
+  border: 1px solid white;
+  color: white;
+  border-radius: 5px;
+  margin: auto;
+  font-size: 17px;
+  cursor: pointer;
+  transition: 90ms;
+}
+.contact-form form button:hover {
+  background-color: white;
+  color: #014e38;
+}
+
+
+
+
+
+
+
+
+
+
+
+

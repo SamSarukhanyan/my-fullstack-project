@@ -1,0 +1,170 @@
+.product_detail_root {
+   width: 90%;
+   height: 70%;
+   padding-top: 20px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   margin: 120px auto;
+   border: 3px solid rgb(72, 255, 0);
+ }
+ .top_content {
+   border: 7px solid rgb(228, 20, 255);
+ }
+ .product_detail_root h1 {
+   text-align: center;
+   border: 1px солидный rgb(121, 121, 121);
+ }
+
+ .slider_root {
+   max-width: 800px;
+   border: 8px solid coral;
+   position: relative;
+   height: auto;
+   margin: auto;
+ }
+
+ .slider_block {
+   margin: 0; /* Убедитесь, что margin: 0; */
+   padding: 0; /* Убедитесь, что padding: 0; */
+ }
+
+ .image_block {
+   width: auto;
+   position: relative;
+   height: 450px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border: 5px rgb(255, 197, 7);
+ }
+ 
+ .image_block img {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+   border-radius: 10px;
+ }
+
+ .zoom_icon {
+   position: absolute;
+   bottom: 30px;
+   left: 51%;
+   transform: translateX(-50%);
+   cursor: pointer;
+ }
+ 
+ .zoom_svg_icon {
+   width: 45px;
+   height: 45px;
+   fill: #ffffff73;
+   cursor: pointer;
+   transition: 0.2s;
+ }
+ 
+ .zoom_svg_icon:hover {
+   fill: #ffffff;
+   transform: scale(1.2);
+ }
+
+ .slick-prev,
+.slick-next {
+  width: 70px !important; /* Увеличенный размер стрелок */
+  height: 80% !important;
+  z-index: 1;
+  position: absolute;
+  /* background: none !important; */
+  background-color: rgba(218, 218, 218, 0.212) !important;
+  border: none !important;
+  border-radius: 10px;
+  transition: 200ms !important;
+}
+
+.prev-arrow:hover {
+  background-color: rgba(218, 218, 218, 0.418) !important;
+}
+.next-arrow:hover {
+  background-color: rgba(218, 218, 218, 0.418) !important;
+}
+
+.slick-prev {
+  margin-left: 25px;
+  transition: 200ms !important;
+}
+
+.slick-next {
+  margin-right: 25px;
+  transition: 200ms !important;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  display: none;
+}
+
+.custom-arrow svg {
+  width: 100%;
+  height: 100%;
+  fill: gray;
+  transition: 100ms;
+}
+
+.custom-arrow:hover svg {
+  fill: rgb(182, 178, 178);
+}
+
+/* Возвращаем стандартные стили для точек переключателей */
+.slick-dots {
+  position: absolute;
+  height: 50px;
+  top: 89%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  padding: 0;
+  list-style: none;
+}
+
+.slick-dots li button {
+  font-size: 0; /* Убираем текст */
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* Устанавливаем для последующего добавления псевдоэлементов */
+}
+
+.slick-dots li button:before {
+  font-size: 0;
+  content: "";
+  display: block;
+  width: 16px;
+  height: 16px;
+  background-color: #bbb; /* Стандартный цвет */
+  border-radius: 50%;
+  border: 1px solid rgb(0, 0, 0);
+  transition: opacity 0.3s, transform 0.3s, background-color 0.3s;
+}
+
+.slick-dots li.slick-active button:before {
+  background-color: #717171; /* Цвет активной точки */
+  transform: scale(1.1);
+  font-size: 0;
+  border: 1px solid black;
+}
+
+/* Стили для SVG стрелок */
+
+.slick-prev svg:hover {
+  fill: rgb(224, 224, 224);
+}
+.slick-next svg:hover {
+  fill: rgb(224, 224, 224);
+}

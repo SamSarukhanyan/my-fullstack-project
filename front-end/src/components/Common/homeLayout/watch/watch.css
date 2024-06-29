@@ -1,0 +1,92 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.container .clock {
+  display: flex;
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(33, 37, 32, 0.281);
+  background: #b9d1bdad;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.226);
+  position: relative;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.clock label {
+  text-align: center;
+  inset: 1px;
+  transform: rotate(calc(var(--i) * (360deg / 12)));
+  position: absolute;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.clock label span {
+  font-size: 14px;
+  display: inline-block;
+  color: black;
+  transform: rotate(calc(var(--i) * (-360deg / 12)));
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.container .indicator {
+  display: flex;
+  justify-content: center;
+  height: 8px;
+  width: 8px;
+  position: absolute;
+}
+
+.indicator::before {
+  content: "";
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  z-index: 400;
+  background: black;
+  border: 2px solid rgb(0, 0, 0);
+  position: absolute;
+  bottom: -1px;
+}
+
+.indicator .hand {
+  position: absolute;
+  width: 2px;
+  background: rgb(213, 241, 230);
+  bottom: 50%;
+  transform-origin: bottom;
+  z-index: 100;
+  
+}
+
+.hand.second {
+  height: 60px; /* Adjusted */
+  border-radius: 20px;
+}
+
+.hand.minute {
+  width: 3px;
+  height: 53px;
+  background: rgb(84, 100, 79);
+  border-radius: 20px;
+}
+
+.hand.hour {
+  width: 4px;
+  height: 42px;
+  border-radius: 20px;
+  background: rgb(22, 65, 33);
+}
+
+.date {
+  font-size: 16px;
+  color: rgb(255, 255, 255);
+  margin-top: 10px;
+  font-family: 'Courier New', Courier, monospace;
+}

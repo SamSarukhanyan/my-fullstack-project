@@ -1,0 +1,13 @@
+
+.category_count{
+   /* border: 1px solid white; */
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   color: rgb(44, 63, 50);
+   font-size: 17px;
+}
+.category_count p{
+   margin-left: 5px;
+
+}

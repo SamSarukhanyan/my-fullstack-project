@@ -1,0 +1,119 @@
+/* index.css */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+
+/* Изменение стилей скролла и добавление скругленных углов */
+
+/* Стиль всей полосы прокрутки */
+::-webkit-scrollbar {
+  width: 15px; /* Ширина вертикальной полосы прокрутки */
+  height: 15px; /* Высота горизонтальной полосы прокрутки */
+}
+
+/* Стиль трека (фон полосы прокрутки) */
+::-webkit-scrollbar-track {
+  background: #8b8b8b; /* Цвет фона трека */
+}
+
+/* Стиль ползунка (движущаяся часть полосы прокрутки) */
+::-webkit-scrollbar-thumb {
+  background-color: #b4b4b4; /* Цвет ползунка */
+  border-radius: 10px; /* Скругление углов ползунка */
+  border: 1px solid #797979; /* Отступы и цвет фона трека */
+}
+
+/* Стиль ползунка при наведении */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #777; /* Цвет ползунка при наведении */
+  cursor: pointer;
+}
+
+
+:root {
+  --primary: #bc4123;
+  --secondary: #003a2a;
+}
+body {
+  font-family: "Poppins";
+  
+}
+* {
+  margin: 0;
+  padding: 0px;
+  box-sizing: border-box;
+}
+p {
+  margin: 20px 0;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+}
+nav ul li {
+  padding: 0px 5px;
+  text-decoration: none;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+nav ul li a {
+  font-size: 19px;
+  padding: 0px 25px 1px 25px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+  transition: 150ms;
+  height: 60px;
+  border-radius: 7px;
+  white-space: nowrap;
+}
+nav ul li a:hover {
+  transition: 100ms;
+  color: rgb(59, 59, 59);
+  background-color: rgba(236, 236, 236, 0.568);
+}
+
+/* Дополнительный стиль для ссылки Add Property */
+.add-property-link {
+  transition: 200ms;
+  border: 1px solid #1d553b;
+  color: #a8d8c8;
+  border-radius: 10px;
+  height: 45px;
+  white-space: nowrap;
+  background-color: #1d553b;
+}
+.add-property-link:hover {
+  background-color: #2A8589;
+  border: 1px solid white;
+  transition: 200ms;
+  color: white;
+}
+
+/* form */
+form {
+  margin-top: 30px;
+}
+
+form label span,
+form textarea {
+  display: block;
+}
+
+form textarea {
+  margin: auto;
+  margin-bottom: 30px;
+  padding: 8px;
+  border-radius: 4px;
+  border: 0;
+  width: 90%;
+  color: var(--secondary);
+}
+form label span {
+  margin-bottom: 10px;
+}
+
+

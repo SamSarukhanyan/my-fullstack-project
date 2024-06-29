@@ -1,0 +1,39 @@
+#map {
+   position: absolute;
+   z-index: 1;
+   top: 100px;
+   right: 2%;
+   width: 550px;
+   height: 430px;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+ }
+ 
+ 
+ .mapContainer {
+   border: 1px solid rgb(204, 204, 204);
+   box-shadow: 0px 0px 15px 5px rgb(223, 222, 222);
+   border-radius: 15px; /* или любой другой желаемый радиус */
+   overflow: hidden; /* Чтобы скрыть углы карты, выходящие за пределы контейнера */
+ }
+ 
+ .addLocation {
+   padding: 10px 20px;
+   background-color: #1e7267;
+   border: 1px solid white;
+   color: white;
+   border-radius: 5px;
+   margin: auto;
+   font-size: 17px;
+   margin-top: 10px;
+   margin-bottom: 10px;
+   cursor: pointer;
+   transition: 90ms;
+ }
+ .addLocation:hover {
+   background-color: white;
+   color: #014e38;
+   border: 1px solid #014e38;
+ }
+ 

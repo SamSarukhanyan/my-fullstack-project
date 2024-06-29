@@ -1,0 +1,118 @@
+
+/* fullscreen.css */
+.fullscreen_slider {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.96);
+  z-index: 5000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.fullscreen_slider .top_content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100% !important;
+  padding: 0;
+  border: none;
+}
+.fullscreen_slider .top_content .slider_root {
+  min-width: 60%;
+  border: none;
+}
+
+.fullscreen_slider .top_content .slider_block {
+  min-width: 100%;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.fullscreen_slider .top_content .image_block {
+  width: 100% !important;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.fullscreen_slider img {
+  width: 100% !important;
+  height: 100%;
+  object-fit: contain;
+}
+
+.fullscreen_header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  color: white;
+  font-size: 18px;
+  margin-top: 30px;
+  margin-bottom: 5px;
+}
+.fullscreen_header span {
+  margin-left: 20px;
+  font-size: 35px;
+}
+.fullscreen_header button {
+  z-index: 3300 !important;
+  width: 130px;
+  height: 130px;
+  cursor: pointer;
+  position: absolute;
+ 
+  color: rgba(255, 255, 255, 0.493);
+  top: 0;
+  right: 0;
+  font-size: 60px;
+  background-color: rgba(226, 226, 226, 0.329);
+  border-radius: 0px 0px 0px 10px;
+  opacity: 0.4;
+  transition: 100ms;
+}
+.fullscreen_header button:hover {
+  background-color: rgba(226, 226, 226, 0.5);
+  color: rgba(255, 255, 255, 0.733);
+}
+
+/* Изменение стилей для стрелок */
+.fullscreen_slider .top_content .slick-prev,
+.fullscreen_slider .top_content .slick-next {
+  width: 170px !important; /* Увеличенный размер стрелок */
+  height: 100% !important;
+  /* background: none !important; */
+  background-color: rgba(218, 218, 218, 0.082) !important;
+  border: none !important;
+  border-radius: 10px;
+  z-index: 1;
+}
+
+.fullscreen_slider .top_content .prev-arrow:hover {
+  background-color: rgba(218, 218, 218, 0.418) !important;
+}
+.fullscreen_slider .top_content .next-arrow:hover {
+  background-color: rgba(218, 218, 218, 0.418) !important;
+}
+
+.fullscreen_slider .top_content .slick-prev {
+  position: absolute !important;
+  left: -20%;
+  transition: 200ms !important;
+}
+
+.fullscreen_slider .top_content .slick-next {
+  position: absolute !important;
+  right: -20%;
+  transition: 200ms !important;
+}
+
+.fullscreen_slider .top_content .slick-dots {
+  top: 100%;
+}
