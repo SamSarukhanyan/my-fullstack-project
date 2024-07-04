@@ -1,5 +1,5 @@
 .filter-container::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -28,6 +28,48 @@
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
+.filter-container.map-view {
+  position: absolute;
+  top: 0px;
+  left: 10px;
+  max-width: 300px;
+  padding: 15px 10px 10px 10px;
+  border: 2px solid rgb(98, 0, 255);
+  z-index: 55001; /* Установлено значение z-index */
+  height: 90vh; /* Высота контейнера */
+  overflow-y: auto; /* Прокрутка по вертикали */
+  background: #b9d1bdad; /* Полупрозрачный фон */
+  backdrop-filter: blur(9px); /* Размытие заднего фона */
+  -webkit-backdrop-filter: blur(10px); /* Размытие заднего фона для Safari */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Тень для глубины */
+  border-radius: 10px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.filter-container.map-view:hover {
+  overflow-y: auto; /* Прокрутка при наведении */
+}
+
+
+
+.filter-container.map-view-filter::-webkit-scrollbar {
+  width: 8px;
+}
+
+.filter-container.map-view-filter::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.filter-container.map-view-filter::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.filter-container.map-view-filter::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 .filter-container label {
   display: block;
   font-weight: normal;
@@ -37,7 +79,6 @@
 
 .selectors {
   width: 100%;
-  
 }
 
 .advanced-filters {
@@ -47,7 +88,7 @@
   /* border: 3px solid rgb(76, 0, 255); */
   height: auto;
   z-index: 1 !important;
-  background-color: #88A292;
+  background-color: #88a292;
   border-radius: 10px;
 }
 
@@ -55,7 +96,7 @@
   white-space: wrap;
 }
 
-.selected-options{
+.selected-options {
   position: absolute;
   right: 20px;
   color: rgb(29, 172, 53);
@@ -74,7 +115,6 @@
   transition: transform 0.1s ease;
 }
 
-
 .arrow-up {
   transform: rotate(225deg);
 }
@@ -92,9 +132,8 @@
   margin-top: 1px;
   padding: 10px;
   cursor: pointer;
-  background-color: #C2DAD4;
+  background-color: #c2dad4;
   user-select: none; /* Disable text selection */
-  
 }
 
 .checkbox-select-label {
@@ -150,7 +189,6 @@
   padding: 0px 5px 2px 10px;
   user-select: none; /* Disable text selection */
   transition: 100ms;
- 
 }
 
 .checkbox_children:hover {
@@ -211,7 +249,7 @@
 }
 
 .checkbox-options .buttons button:hover {
-  background-color: #36AEB2;
+  background-color: #36aeb2;
 }
 
 .fade-enter {
@@ -258,7 +296,6 @@
 
 .price-inputs label {
   margin-left: 10px;
-  
 }
 
 .price-inputs input {
@@ -267,7 +304,7 @@
   font-size: 14px;
   border-radius: 6px;
   margin-left: 2px;
-  background-color: #C2DAD4;
+  background-color: #c2dad4;
   border: 1px solid #557c6467;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
@@ -279,7 +316,7 @@
   width: 100%;
   height: 35px;
   border-radius: 5px;
-  background-color: #C2DAD4;
+  background-color: #c2dad4;
   border: 1px solid #557c6467;
   transition: 100ms;
 }
@@ -309,7 +346,7 @@
   padding: 10px;
   border: 1px solid #42634f52;
   border-radius: 4px;
-  background: #C2DAD4;
+  background: #c2dad4;
   cursor: pointer;
   text-decoration: none;
   color: black;
@@ -343,28 +380,27 @@
 
 .custom-single-value .placeholder {
   color: #505050;
- 
 }
 
 .custom-single-value .value {
   color: #088ce4;
 }
-.reset{
+.reset {
   text-align: right;
 }
-.reset-button{
-padding: 5px 10px;
-border: none;
-width: 100%;
-border-radius: 8px;
-margin-bottom: 3px;
-background-color: #24755d;
-color: white;
-font-size: 15px;
-font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-cursor: pointer;
-transition: 100ms;
+.reset-button {
+  padding: 5px 10px;
+  border: none;
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 3px;
+  background-color: #24755d;
+  color: white;
+  font-size: 15px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  cursor: pointer;
+  transition: 100ms;
 }
-.reset-button:hover{
+.reset-button:hover {
   background-color: #2c8f71;
 }

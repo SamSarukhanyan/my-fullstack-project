@@ -9,13 +9,13 @@ import SelectCategory from "./components/Common/selectCategory/SelectCategory";
 import AddProperty from "./components/Property/addProperty/AddProperty";
 import EditProperty from "./components/Admin/EditProperty/EditProperty";
 import NotFound from "./components/Common/notFound/NotFound";
-import CategoryProperties from "./components/Common/categoryProperties/CategoryProperties";
 import { AuthProvider } from "./context/AuthContext";
 import { FilterProvider } from "./context/FilterContext";
 import { PropertyProvider } from "./context/PropertyContext";
 import { DimmingProvider } from "./context/DimmingContext";
 import HomeLayout from "./components/Common/homeLayout/HomeLayout";
 import React, { useRef } from "react";
+import CategoryProperties from "./components/Common/categoryProperties/CategoryProperties.jsx";
 
 const queryClient = new QueryClient();
 
@@ -33,7 +33,7 @@ function App() {
                 <Route path="/login" element={<AdminLogin />} />
                 <Route path="/" element={<HomeLayout filterRef={filterRef} />}>
                   <Route index element={<PropertiesList />} />
-                  <Route path="category/:category" element={<CategoryProperties />} />
+                  <Route path="category/:category" element={<CategoryProperties />} /> {/* Объединенный маршрут */}
                 </Route>
                 <Route path="properties/:id" element={<PropertyDetails />} />
                 <Route path="/admin/properties" element={<AdminProperties />} />

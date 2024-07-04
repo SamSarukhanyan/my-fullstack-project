@@ -1,24 +1,10 @@
 import React from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import axios from "axios";
-import "./adminProperties.css";
 import { useNavigate } from "react-router-dom";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import L from "leaflet";
+import { YMaps, Map, Placemark } from "react-yandex-maps";
+import "./adminProperties.css";
 import { ADMIN_URL, PUBLIC_URL } from "../../../config/config";
-import icon from '../../../assets/icons/icon.png'
-
-// Установите путь к вашему изображению маркера
-const customIcon = new L.Icon({
-  iconUrl: icon,
-  iconSize: [19, 27], // размер иконки маркера
-  iconAnchor: [19, 27], // точка привязки иконки, соответствующая ее "основанию"
-  popupAnchor: [0, -32], // точка, от которой должен открываться попап, относительно иконки
-  shadowUrl: '',
-  shadowSize: [19, 27], // размер тени
-  shadowAnchor: [19, 27], // точка привязки тени
-});
 
 const fetchAdminProperties = async () => {
   const token = localStorage.getItem("adminToken");
@@ -79,50 +65,49 @@ const AdminProperties = () => {
 
       <div className="content_block">
         <div className="map_container">
-          <MapContainer
-            center={[40.1774, 44.5134]}
-            zoom={7}
-            style={{
-              height: "100%",
-              width: "100%",
-              margin: "auto",
-              zIndex: "2",
+          <YMaps
+            query={{
+              apikey: process.env.REACT_APP_YANDEX_MAPS_API_KEY,
+              lang: "en_US",
             }}
           >
-            <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            />
-            {properties &&
-              properties.length > 0 &&
-              properties.map(
-                (property) =>
-                  property.lat &&
-                  property.lng && (
-                    <Marker
-                      key={property.id}
-                      position={[property.lat, property.lng]}
-                      icon={customIcon} // Применяем настраиваемую иконку
-                    >
-                      <Popup>
-                        <div>
-                          <h3>{property.category}</h3>
-                          <p>{property.subregion}</p>
-                          {property.photos && property.photos.length > 0 && (
-                            <img
-                              src={`${PUBLIC_URL}/${formatImagePath(
-                                property.photos[0]
-                              )}`}
-                              alt="Property"
-                              style={{ width: "100px", borderRadius: "5px" }}
-                            />
-                          )}
-                        </div>
-                      </Popup>
-                    </Marker>
-                  )
-              )}
-          </MapContainer>
+            <Map
+              defaultState={{
+                center: [40.1774, 44.5134],
+                zoom: 7,
+              }}
+              width="100%"
+              height="100%"
+            >
+              {properties &&
+                properties.length > 0 &&
+                properties.map(
+                  (property) =>
+                    property.lat &&
+                    property.lng && (
+                      <Placemark
+                        key={property.id}
+                        geometry={[property.lat, property.lng]}
+                        properties={{
+                          balloonContent: `
+                            <div>
+                              <h3>${property.category}</h3>
+                              <p>${property.subregion}</p>
+                              ${
+                                property.photos && property.photos.length > 0
+                                  ? `<img src="${PUBLIC_URL}/${formatImagePath(
+                                      property.photos[0]
+                                    )}" alt="Property" style="width: 100px; border-radius: 5px;" />`
+                                  : ""
+                              }
+                            </div>
+                          `,
+                        }}
+                      />
+                    )
+                )}
+            </Map>
+          </YMaps>
         </div>
         <div className="products_container">
           {properties && properties.length > 0 ? (

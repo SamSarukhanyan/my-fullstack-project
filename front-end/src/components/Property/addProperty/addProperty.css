@@ -1,0 +1,27 @@
+ #map{
+   width: 600px;
+   position: absolute;
+   right: 13px;
+   top: 100px;
+   overflow: hidden;
+}
+.mapContainer{
+   border-radius: 10px;
+}
+
+.addLocation{
+   padding: 10px;
+   margin: 10px;
+   border: none;
+   background-color: rgb(17, 85, 57);
+   color: white;
+   border-radius: 5px;
+   cursor: pointer;
+   transition: 100ms;
+   position: absolute;
+   right: 40%;
+   bottom: 0;
+}
+.addLocation:hover{
+   background-color:rgb(24, 114, 76) ;
+}

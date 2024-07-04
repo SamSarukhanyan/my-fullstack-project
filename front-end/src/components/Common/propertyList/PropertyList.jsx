@@ -17,7 +17,11 @@ const fetchPropertiesList = async (filters, search, page, limit) => {
   if (search) {
     queryObject.search = search;
   } else {
-    if (filters.priceRange && filters.priceRange.from !== "" && filters.priceRange.to !== "") {
+    if (
+      filters.priceRange &&
+      filters.priceRange.from !== "" &&
+      filters.priceRange.to !== ""
+    ) {
       queryObject.priceRange = JSON.stringify(filters.priceRange); // сериализация объекта
     }
 
@@ -44,7 +48,9 @@ const fetchPropertiesList = async (filters, search, page, limit) => {
 
   const queryString = new URLSearchParams(queryObject).toString();
 
-  const { data } = await axios.get(`${PUBLIC_URL}/api/properties?${queryString}`);
+  const { data } = await axios.get(
+    `${PUBLIC_URL}/api/properties?${queryString}`
+  );
   return data;
 };
 
@@ -71,8 +77,13 @@ const PropertiesList = () => {
       params.set("search", searchTerm);
     }
 
-    Object.keys(filters).forEach(key => {
-      if (filters[key] && (typeof filters[key] === 'string' ? filters[key] : Object.keys(filters[key]).length > 0)) {
+    Object.keys(filters).forEach((key) => {
+      if (
+        filters[key] &&
+        (typeof filters[key] === "string"
+          ? filters[key]
+          : Object.keys(filters[key]).length > 0)
+      ) {
         if (typeof filters[key] === "object") {
           params.set(key, JSON.stringify(filters[key]));
         } else {
@@ -106,7 +117,9 @@ const PropertiesList = () => {
       ...prevFilters,
       ...filtersFromParams,
     }));
-    setCurrentPage(filtersFromParams.page ? parseInt(filtersFromParams.page, 10) : 1);
+    setCurrentPage(
+      filtersFromParams.page ? parseInt(filtersFromParams.page, 10) : 1
+    );
   }, [location.search, setFilters]);
 
   useEffect(() => {
@@ -248,123 +261,129 @@ const PropertiesList = () => {
     Object.keys(filters.searchFields).length > 0;
 
   return (
-    <div className={`products_block ${isDimmed ? "dimmed" : ""}`}>
-      <h2>Все Недвижимости</h2>
-      <SearchComponent
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        onSearch={handleSearch}
-        onClear={handleClearSearch}
-        onFocus={handleFocus}
-        disableDimming={disableDimming}
-      />
-      {showResultsMessage && (
-        <div className="results_message">
-          <span>
-            По вашему запросу найдено {data ? data.totalCount : 0} результат(ов)
-          </span>
-        </div>
-      )}
-      <div className="view_toggle">
-        <FaTh
-          className={`view_icon ${isGridView ? "active" : ""}`}
-          onClick={() => setIsGridView(true)}
+    <section className="root">
+    
+      <div className={`products_block ${isDimmed ? "dimmed" : ""}`}>
+        <h2>Все Недвижимости</h2>
+        <SearchComponent
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          onSearch={handleSearch}
+          onClear={handleClearSearch}
+          onFocus={handleFocus}
+          disableDimming={disableDimming}
         />
-        <FaThList
-          className={`view_icon ${!isGridView ? "active" : ""}`}
-          onClick={() => setIsGridView(false)}
-        />
-      </div>
-      {isLoading || showSkeletons ? (
-        <div className="products_container">
-          {renderSkeletons(skeletonCount)}
+        {showResultsMessage && (
+          <div className="results_message">
+            <span>
+              По вашему запросу найдено {data ? data.totalCount : 0}{" "}
+              результат(ов)
+            </span>
+          </div>
+        )}
+        <div className="view_toggle">
+          <FaTh
+            className={`view_icon ${isGridView ? "active" : ""}`}
+            onClick={() => setIsGridView(true)}
+          />
+          <FaThList
+            className={`view_icon ${!isGridView ? "active" : ""}`}
+            onClick={() => setIsGridView(false)}
+          />
         </div>
-      ) : isError ? (
-        <div className="error_message">{error}</div>
-      ) : (
-        <div
-          className={`products_container ${
-            isGridView ? "grid_view" : "list_view"
-          }`}
-        >
-          {properties && properties.length > 0 ? (
-            properties.map((property) => (
-              <div
-                key={property.id}
-                className="product_card"
-                onClick={() => handleViewDetails(property.id)}
-              >
-                <div className="product_images">
-                  {property.photos && property.photos.length > 0 ? (
-                    <img
-                      src={`${PUBLIC_URL}/${formatImagePath(
-                        property.photos[0]
-                      )}`}
-                      alt="Property"
-                      className="product_image"
-                    />
-                  ) : (
-                    <div>No images available</div>
-                  )}
+        {isLoading || showSkeletons ? (
+          <div className="products_container">
+            {renderSkeletons(skeletonCount)}
+          </div>
+        ) : isError ? (
+          <div className="error_message">{error}</div>
+        ) : (
+          <div
+            className={`products_container ${
+              isGridView ? "grid_view" : "list_view"
+            }`}
+          >
+            {properties && properties.length > 0 ? (
+              properties.map((property) => (
+                <div
+                  key={property.id}
+                  className="product_card"
+                  onClick={() => handleViewDetails(property.id)}
+                >
+                  <div className="product_images">
+                    {property.photos && property.photos.length > 0 ? (
+                      <img
+                        src={`${PUBLIC_URL}/${formatImagePath(
+                          property.photos[0]
+                        )}`}
+                        alt="Property"
+                        className="product_image"
+                      />
+                    ) : (
+                      <div>No images available</div>
+                    )}
+                  </div>
+                  <div className="bottom_content">
+                    <div className="product_price">
+                      {property.price} {property.currency}
+                    </div>
+                    <div className="product_title">
+                      Category: {property.category}
+                    </div>
+                    <div className="product_title">
+                      Property ID: {property.propertyId}
+                    </div>
+                    <div className="product_title">
+                      Region: {property.region}
+                    </div>
+                    <div className="product_title">
+                      Subregion: {property.subregion}
+                    </div>
+                  </div>
                 </div>
-                <div className="bottom_content">
-                  <div className="product_price">
-                    {property.price} {property.currency}
-                  </div>
-                  <div className="product_title">
-                    Category: {property.category}
-                  </div>
-                  <div className="product_title">
-                    Property ID: {property.propertyId}
-                  </div>
-                  <div className="product_title">Region: {property.region}</div>
-                  <div className="product_title">
-                    Subregion: {property.subregion}
-                  </div>
-                </div>
+              ))
+            ) : (
+              <div className="no_results_message">
+                Не найдено никакой информации, соответствующей Вашему запросу.
+                <br />
+                Убедитесь, что слова написаны без ошибок
+                <br />
+                Попробуйте использовать другие ключевые слова
+                <br />
+                Попробуйте использовать более популярные ключевые слова
               </div>
-            ))
-          ) : (
-            <div className="no_results_message">
-              Не найдено никакой информации, соответствующей Вашему запросу.
-              <br />
-              Убедитесь, что слова написаны без ошибок
-              <br />
-              Попробуйте использовать другие ключевые слова
-              <br />
-              Попробуйте использовать более популярные ключевые слова
-            </div>
-          )}
-        </div>
-      )}
-      {totalPages > 1 && (
-        <div className="pagination">
-          <button
-            onClick={(e) => handlePageChange(Math.max(currentPage - 1, 1), e)}
-            disabled={currentPage === 1}
-          >
-            {"<"}
-          </button>
-          {[...Array(totalPages)].map((_, index) => (
+            )}
+          </div>
+        )}
+        {totalPages > 1 && (
+          <div className="pagination">
             <button
-              key={index}
-              onClick={(e) => handlePageChange(index + 1, e)}
-              className={currentPage === index + 1 ? "active" : ""}
+              onClick={(e) => handlePageChange(Math.max(currentPage - 1, 1), e)}
+              disabled={currentPage === 1}
             >
-              {index + 1}
+              {"<"}
             </button>
-          ))}
-          <button
-            onClick={(e) =>
-              handlePageChange(Math.min(currentPage + 1, totalPages), e)
-            }
-            disabled={currentPage === totalPages}
-          >
-            {">"}
-          </button>
-        </div>
-      )}
-    </div>
+            {[...Array(totalPages)].map((_, index) => (
+              <button
+                key={index}
+                onClick={(e) => handlePageChange(index + 1, e)}
+                className={currentPage === index + 1 ? "active" : ""}
+              >
+                {index + 1}
+              </button>
+            ))}
+            <button
+              onClick={(e) =>
+                handlePageChange(Math.min(currentPage + 1, totalPages), e)
+              }
+              disabled={currentPage === totalPages}
+            >
+              {">"}
+            </button>
+          </div>
+        )}
+      </div>
+    </section>
   );
 };
 

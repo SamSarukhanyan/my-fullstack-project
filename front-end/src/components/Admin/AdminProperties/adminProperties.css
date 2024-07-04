@@ -18,8 +18,8 @@
   flex-direction: column;
  }
  .adminHome_section .map_container{
-   width: 900px;
-   height: 380px;
+   width: 1300px;
+   height: 580px;
    overflow: hidden;
    border-radius: 15px;
    margin: 30px auto;

@@ -80,7 +80,7 @@ const CheckboxOptions = ({
   );
 };
 
-const FilterComponent = ({ onFilterChange }) => {
+const FilterComponent = ({ onFilterChange, isMapView }) => {
   const { category } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -101,6 +101,8 @@ const FilterComponent = ({ onFilterChange }) => {
   const [isFiltersApplied, setIsFiltersApplied] = useState(false);
 
   const updateUrlParams = useCallback(() => {
+    if (isMapView) return; // Don't update URL if in map view
+
     const params = new URLSearchParams();
 
     Object.keys(filters).forEach(key => {
@@ -114,7 +116,7 @@ const FilterComponent = ({ onFilterChange }) => {
     });
 
     navigate(`${location.pathname}?${params.toString()}`, { replace: true });
-  }, [filters, navigate, location.pathname]);
+  }, [filters, navigate, location.pathname, isMapView]);
 
   useEffect(() => {
     if (category) {
@@ -134,7 +136,7 @@ const FilterComponent = ({ onFilterChange }) => {
 
   useEffect(() => {
     if (onFilterChange) {
-      onFilterChange(filters, true);
+      onFilterChange(filters);
     }
   }, [filters, onFilterChange]);
 
@@ -505,7 +507,7 @@ const FilterComponent = ({ onFilterChange }) => {
   }, [filters, updateUrlParams, isFiltersApplied]);
 
   return (
-    <div className="filter-container">
+    <div className={`filter-container ${isMapView ? 'map-view' : ''}`}>
       <div className="reset">
         <button onClick={handleResetFilters} className="reset-button">
           Сбросить фильтры

@@ -9,6 +9,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { FaTh, FaThList } from "react-icons/fa";
 import SearchComponent from "../search/SearchComponent.jsx";
+import MapView from "./mapView/MapView.jsx";
 import "./categoryProperties.css";
 import "../propertyList/propertyList.css";
 
@@ -84,7 +85,8 @@ const CategoryProperties = () => {
     params.set("page", currentPage);
 
     navigate(`${location.pathname}?${params.toString()}`, { replace: true });
-  }, [filters, searchTerm, currentPage, navigate, location.pathname]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters, searchTerm, navigate, location.pathname]);
 
   useEffect(() => {
     setFilters((prevFilters) => ({
@@ -98,7 +100,7 @@ const CategoryProperties = () => {
     if (isFiltersApplied) {
       updateUrlParams();
     }
-  }, [filters, searchTerm, currentPage, updateUrlParams, isFiltersApplied]);
+  }, [filters, searchTerm, updateUrlParams, isFiltersApplied]);
 
   useEffect(() => {
     if (data) {
@@ -196,119 +198,129 @@ const CategoryProperties = () => {
     filters.propertyId ||
     Object.keys(filters.searchFields).length > 0;
 
+  const urlParams = new URLSearchParams(location.search);
+  const gl = urlParams.get('gl');
+
   return (
     <section className="category_section">
-      <div className={`products_block ${isDimmed ? "dimmed" : ""}`}>
-        <h2>{category} объявления</h2>
-        <div className="category_count">
-          <span>Результаты поиска - </span>
-          <p>
-            {category}: {data ? data.totalCount : 0}
-          </p>
-        </div>
-        <SearchComponent
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          onSearch={handleSearch}
-          onClear={handleClearSearch}
-          onFocus={handleFocus}
-          disableDimming={disableDimming}
-        />
-        {showResultsMessage && (
-          <div className="results_message">
-            По вашему запросу найдено {data ? data.totalCount : 0} результат(ов)
-          </div>
-        )}
-        <div className="view_toggle">
-          <FaTh
-            className={`view_icon ${isGridView ? "active" : ""}`}
-            onClick={() => setIsGridView(true)}
-          />
-          <FaThList
-            className={`view_icon ${!isGridView ? "active" : ""}`}
-            onClick={() => setIsGridView(false)}
-          />
-        </div>
-        {isLoading || showSkeletons ? (
-          <div className="products_container">
-            {renderSkeletons(skeletonCount)}
-          </div>
-        ) : isError ? (
-          <div className="error_message">{error}</div>
-        ) : (
-          <div
-            className={`products_container ${
-              isGridView ? "grid_view" : "list_view"
-            }`}
-          >
-            {data && data.properties.length > 0 ? (
-              data.properties.map((property) => (
-                <div
-                  key={property.id}
-                  className="product_card"
-                  onClick={() => navigate(`/properties/${property.id}`)}
-                >
-                  <div className="product_images">
-                    {property.photos && property.photos.length > 0 ? (
-                      <img
-                        src={`${PUBLIC_URL}/${formatImagePath(
-                          property.photos[0]
-                        )}`}
-                        alt="Property"
-                        className="product_image"
-                      />
-                    ) : (
-                      <div>No images available</div>
-                    )}
-                  </div>
-                  <div className="bottom_content">
-                    <div className="product_title">
-                      {property.price} {property.currency}{" "}
-                    </div>
-                    <div className="product_title">
-                      Категория: {property.category}
-                    </div>
-                    <div className="product_title">id: {property.propertyId}</div>
-                    <div className="product_title">Регион: {property.region}</div>
-                    <div className="product_title">
-                      Подрегион: {property.subregion}
-                    </div>
-                  </div>
-                </div>
-              ))
+      {gl ? (
+        <MapView category={category} filters={filters} />
+      ) : (
+        <>
+          <div className="mapView" onClick={() => navigate(`${location.pathname}?gl=8`)}><span>View in Map</span></div>
+          <div className={`products_block ${isDimmed ? "dimmed" : ""}`}>
+            <h2>{category} объявления</h2>
+            <div className="category_count">
+              <span>Результаты поиска - </span>
+              <p>
+                {category}: {data ? data.totalCount : 0}
+              </p>
+            </div>
+            <SearchComponent
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              onSearch={handleSearch}
+              onClear={handleClearSearch}
+              onFocus={handleFocus}
+              disableDimming={disableDimming}
+            />
+            {showResultsMessage && (
+              <div className="results_message">
+                По вашему запросу найдено {data ? data.totalCount : 0} результат(ов)
+              </div>
+            )}
+            <div className="view_toggle">
+              <FaTh
+                className={`view_icon ${isGridView ? "active" : ""}`}
+                onClick={() => setIsGridView(true)}
+              />
+              <FaThList
+                className={`view_icon ${!isGridView ? "active" : ""}`}
+                onClick={() => setIsGridView(false)}
+              />
+            </div>
+            {isLoading || showSkeletons ? (
+              <div className="products_container">
+                {renderSkeletons(skeletonCount)}
+              </div>
+            ) : isError ? (
+              <div className="error_message">{error}</div>
             ) : (
-              <h2>{"По вашему запросу ничего не найдено"} </h2>
+              <div
+                className={`products_container ${
+                  isGridView ? "grid_view" : "list_view"
+                }`}
+              >
+                {data && data.properties.length > 0 ? (
+                  data.properties.map((property) => (
+                    <div
+                      key={property.id}
+                      className="product_card"
+                      onClick={() => navigate(`/properties/${property.id}`)}
+                    >
+                      <div className="product_images">
+                        {property.photos && property.photos.length > 0 ? (
+                          <img
+                            src={`${PUBLIC_URL}/${formatImagePath(
+                              property.photos[0]
+                            )}`}
+                            alt="Property"
+                            className="product_image"
+                          />
+                        ) : (
+                          <div>No images available</div>
+                        )}
+                      </div>
+                      <div className="bottom_content">
+                        <div className="product_title">
+                          {property.price} {property.currency}{" "}
+                        </div>
+                        <div className="product_title">
+                          Категория: {property.category}
+                        </div>
+                        <div className="product_title">id: {property.propertyId}</div>
+                        <div className="product_title">Регион: {property.region}</div>
+                        <div className="product_title">
+                          Подрегион: {property.subregion}
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <h2>{"По вашему запросу ничего не найдено"} </h2>
+                )}
+              </div>
+            )}
+            {totalPages > 1 && (
+              <div className="pagination">
+                <button
+                  onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+                  disabled={currentPage === 1}
+                >
+                  &lt;
+                </button>
+                {[...Array(totalPages)].map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handlePageChange(index + 1)}
+                    className={currentPage === index + 1 ? "active" : ""}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+                <button
+                  onClick={() =>
+                    handlePageChange(Math.min(currentPage + 1, totalPages))
+                  }
+                  disabled={currentPage === totalPages}
+                >
+                  &gt;
+                </button>
+              </div>
             )}
           </div>
-        )}
-        {totalPages > 1 && (
-          <div className="pagination">
-            <button
-              onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
-              disabled={currentPage === 1}
-            >
-              &lt;
-            </button>
-            {[...Array(totalPages)].map((_, index) => (
-              <button
-                key={index}
-                onClick={() => handlePageChange(index + 1)}
-                className={currentPage === index + 1 ? "active" : ""}
-              >
-                {index + 1}
-              </button>
-            ))}
-            <button
-              onClick={() =>
-                handlePageChange(Math.min(currentPage + 1, totalPages))
-              }
-              disabled={currentPage === totalPages}
-            >
-              &gt;
-            </button>
-          </div>
-        )}
-      </div>
+        </>
+      )}
     </section>
   );
 };
