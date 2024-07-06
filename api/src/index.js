@@ -1,3 +1,9 @@
+console.log('DB_USERNAME:', process.env.DB_USERNAME);
+console.log('DB_PASSWORD:', process.env.DB_PASSWORD);
+console.log('DB_DATABASE:', process.env.DB_DATABASE);
+console.log('DB_HOST:', process.env.DB_HOST);
+console.log('DB_PORT:', process.env.DB_PORT);
+
 import express from "express";
 import cors from "cors";
 import db from "./models/index.js";
@@ -65,11 +71,12 @@ app.use("/api", authRoutes);
 app.use("/api/admin", authenticateToken, authorizeAdmin, adminRoutes);
 app.use("/api", homeRoutes);
 
-const PORT = process.env.DB_PORT || 3000;
-app.listen(PORT, async () => {
+const port = process.env.PORT || 4600;
+app.listen(port , async () => {
   try {
     await db.sequelize.sync();
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on port ${port}`);
+    console.log('Database & tables created!');
   } catch (error) {
     console.log(error);
   }

@@ -1,3 +1,5 @@
+
+//.sequelizerc
 import { resolve } from 'path';
 
 export default {
