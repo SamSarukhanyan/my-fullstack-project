@@ -76,7 +76,6 @@ app.listen(port , async () => {
   try {
     await db.sequelize.sync();
     console.log(`Server is running on port ${port}`);
-    console.log('Database & tables created!');
   } catch (error) {
     console.log(error);
   }

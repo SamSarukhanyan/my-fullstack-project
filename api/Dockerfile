@@ -10,6 +10,9 @@ COPY package*.json ./
 # Устанавливаем зависимости
 RUN npm install
 
+# Устанавливаем nodemon глобально
+RUN npm install -g nodemon
+
 # Копируем весь проект в рабочую директорию
 COPY . .
 
@@ -19,5 +22,5 @@ COPY .env .env
 # Открываем порт, который используется приложением
 EXPOSE 4600
 
-# Запускаем приложение
-CMD [ "node", "src/index.js" ]
+# Запускаем приложение с использованием nodemon
+CMD ["nodemon", "src/index.js"]
