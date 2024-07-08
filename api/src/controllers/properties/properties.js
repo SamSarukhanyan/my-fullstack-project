@@ -101,6 +101,8 @@ export const getPropertiesByCategory = async (req, res) => {
 
 
 
+
+
 export const getProperties = async (req, res) => {
   try {
     const { page = 1, limit = 9, search, propertyId, region, subregion, priceRange, currency, searchFields, ...filters } = req.query;

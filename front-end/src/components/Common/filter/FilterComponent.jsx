@@ -101,7 +101,10 @@ const FilterComponent = ({ onFilterChange, isMapView }) => {
   const [isFiltersApplied, setIsFiltersApplied] = useState(false);
 
   const updateUrlParams = useCallback(() => {
-    if (isMapView) return; // Don't update URL if in map view
+    if (isMapView) {
+      onFilterChange(filters);
+      return; // Don't update URL if in map view
+    }
 
     const params = new URLSearchParams();
 
@@ -116,7 +119,7 @@ const FilterComponent = ({ onFilterChange, isMapView }) => {
     });
 
     navigate(`${location.pathname}?${params.toString()}`, { replace: true });
-  }, [filters, navigate, location.pathname, isMapView]);
+  }, [filters, navigate, location.pathname, isMapView, onFilterChange]);
 
   useEffect(() => {
     if (category) {
