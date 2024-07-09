@@ -150,29 +150,29 @@ const CategoryProperties = () => {
     return Array(count)
       .fill()
       .map((_, index) => (
-        <div key={index} className="product_card">
+        <div key={index} className="product_card_sceleton">
           <div className="product_images">
             <Skeleton
               className="skeleton"
               height={200}
-              baseColor="#D3D3D3"
-              highlightColor="#F6F6F6"
+              baseColor="#738B7D"
+              highlightColor="#829D8D"
             />
           </div>
           <div className="product_title">
             <Skeleton
               className="skeleton"
               width="80%"
-              baseColor="#D3D3D3"
-              highlightColor="#f5f5f5"
+              baseColor="#738B7D"
+              highlightColor="#829D8D"
             />
           </div>
           <div className="product_price">
             <Skeleton
               className="skeleton"
               width="40%"
-              baseColor="#D3D3D3"
-              highlightColor="#f5f5f5"
+              baseColor="#738B7D"
+              highlightColor="#829D8D"
             />
           </div>
           <div className="product_details">
@@ -180,8 +180,8 @@ const CategoryProperties = () => {
               className="skeleton"
               width="60px"
               height="35px"
-              baseColor="#D3D3D3"
-              highlightColor="#f5f5f5"
+              baseColor="#738B7D"
+              highlightColor="#829D8D"
             />
           </div>
         </div>

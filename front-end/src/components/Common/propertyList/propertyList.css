@@ -139,6 +139,14 @@
   background-color: #d3dfdb;
   cursor: pointer;
 }
+
+.product_card_sceleton{
+  border-radius: 10px;
+  margin: 5px;
+  width: auto;
+  background-color: #829D8D;
+  cursor: pointer;
+}
 .bottom_content {
   padding: 10px;
 }
