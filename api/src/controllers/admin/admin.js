@@ -1,7 +1,7 @@
 import db from "../../models/index.js";
-import { geocodeAddress } from '../../utils/geocode.js'; // Импорт функции геокодирования
+import { geocodeAddress } from '../../utils/geocode.js'; 
 
-// Функция добавления недвижимости
+
 export const addProperty = async (req, res) => {
   try {
     const {
@@ -84,7 +84,6 @@ export const getPropertyDetails = async (req, res) => {
   }
 };
 
-// Функция обновления недвижимости
 export const updateProperty = async (req, res) => {
   try {
     const { id } = req.params;

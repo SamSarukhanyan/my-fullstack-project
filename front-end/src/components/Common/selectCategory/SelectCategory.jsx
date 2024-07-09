@@ -2,7 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import data from "../../../data/data.json";
-import "./selectCategory.css"; // Импортируем CSS
+import "./selectCategory.css"; 
 
 function SelectCategory() {
    document.title = 'Add Property'

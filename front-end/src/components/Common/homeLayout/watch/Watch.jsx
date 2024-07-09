@@ -10,7 +10,7 @@ const Watch = () => {
 
   useEffect(() => {
     const interval = setInterval(updateTime, 1000);
-    updateTime(); // Initial call to set the correct time immediately
+    updateTime(); 
 
     return () => clearInterval(interval);
   }, []);
@@ -29,7 +29,7 @@ const Watch = () => {
     setMinDeg(minToDeg);
     setSecDeg(secToDeg);
 
-    // Update the current date
+
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     const formattedDate = date.toLocaleDateString(undefined, options);
     setCurrentDate(formattedDate);

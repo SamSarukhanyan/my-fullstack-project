@@ -11,12 +11,11 @@ import upload from "../middleware/multer.js";
 
 const router = express.Router();
 
-// Маршруты для административных действий с продуктами
 router.get("/properties", getAdminProperties);
 router.post("/properties/:category", upload, addProperty);
 router.delete("/properties/:id", deleteProperty);
 router.get("/properties/:id", getPropertyDetails);
-router.put("/properties/:id", upload, updateProperty); // Добавляем маршрут для обновления
+router.put("/properties/:id", upload, updateProperty); 
 
 
 export default router;

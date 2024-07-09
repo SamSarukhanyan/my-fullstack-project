@@ -62,7 +62,7 @@ passport.deserializeUser(async (id, done) => {
 
 const __dirname = path.resolve();
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads"))); // Сделайте это выше маршрутов с авторизацией
+app.use("/uploads", express.static(path.join(__dirname, "uploads"))); 
 app.use("/api", authRoutes);
 app.use("/api/admin", authenticateToken, authorizeAdmin, adminRoutes);
 app.use("/api", homeRoutes);

@@ -10,7 +10,7 @@ export default {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     dialect: "mysql",
-    logging: console.log, // Включает логирование запросов
+    logging: console.log, 
     dialectOptions: {
       connectTimeout: 60000,
       charset: 'utf8mb4',
@@ -20,5 +20,4 @@ export default {
       collate: 'utf8mb4_unicode_ci',
     },
   },
-  // Добавьте конфигурации для других окружений (production, test и т.д.) при необходимости
 };

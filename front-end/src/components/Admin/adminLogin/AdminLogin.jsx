@@ -33,7 +33,7 @@ const AdminLogin = () => {
       setUsername("");
       setPassword("");
       setError("");
-      handleLogin(); // Вызываем функцию обработчика успешной аутентификации
+      handleLogin(); 
       navigate("/admin/properties");
     } catch (error) {
       setError("Invalid credentials");

@@ -103,7 +103,7 @@ const FilterComponent = ({ onFilterChange, isMapView }) => {
   const updateUrlParams = useCallback(() => {
     if (isMapView) {
       onFilterChange(filters);
-      return; // Don't update URL if in map view
+      return; 
     }
 
     const params = new URLSearchParams();

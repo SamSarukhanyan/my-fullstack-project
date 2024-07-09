@@ -33,7 +33,7 @@ function App() {
                 <Route path="/login" element={<AdminLogin />} />
                 <Route path="/" element={<HomeLayout filterRef={filterRef} />}>
                   <Route index element={<PropertiesList />} />
-                  <Route path="category/:category" element={<CategoryProperties />} /> {/* Объединенный маршрут */}
+                  <Route path="category/:category" element={<CategoryProperties />} /> 
                 </Route>
                 <Route path="properties/:id" element={<PropertyDetails />} />
                 <Route path="/admin/properties" element={<AdminProperties />} />

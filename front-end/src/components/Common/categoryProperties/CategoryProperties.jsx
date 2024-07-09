@@ -19,7 +19,7 @@ const fetchPropertiesByCategory = async (category, filters, search, page, limit)
     page,
     limit,
     search,
-    priceRange: filters.priceRange ? JSON.stringify(filters.priceRange) : "{}", // сериализация объекта
+    priceRange: filters.priceRange ? JSON.stringify(filters.priceRange) : "{}", 
     searchFields: filters.searchFields ? JSON.stringify(filters.searchFields) : "{}",
   };
 

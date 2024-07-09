@@ -2,9 +2,9 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 
-dotenv.config(); // Загрузка переменных среды из файла .env
+dotenv.config(); 
 
-// Функция для отправки электронного письма
+
 export const sendEmail = async (fromEmail, toEmail, message) => {
    const transporter = nodemailer.createTransport({
      service: "gmail",
@@ -15,7 +15,7 @@ export const sendEmail = async (fromEmail, toEmail, message) => {
    });
  
    const mailOptions = {
-     from: `"${fromEmail}" <${process.env.EMAIL_USER}>`, // Используйте имя и адрес электронной почты отправителя
+     from: `"${fromEmail}" <${process.env.EMAIL_USER}>`, 
      to: toEmail,
      subject: "Новое сообщение от посетителя",
      text: message,
@@ -24,12 +24,12 @@ export const sendEmail = async (fromEmail, toEmail, message) => {
    return transporter.sendMail(mailOptions);
  };
 
-// Обработчик маршрута для отправки электронного письма
+
 export const handleEmailSending = async (req, res) => {
   const { email, message } = req.body;
 
   try {
-    await sendEmail(email, "baghdasaryan.anushik@list.ru", message); // Отправляем письмо, используя функцию sendEmail
+    await sendEmail(email, "baghdasaryan.anushik@list.ru", message); 
     res.status(200).send("Сообщение успешно отправлено!");
   } catch (error) {
     console.error("Ошибка при отправке сообщения по электронной почте:", error);

@@ -22,11 +22,11 @@ const fetchPropertiesList = async (filters, search, page, limit) => {
       filters.priceRange.from !== "" &&
       filters.priceRange.to !== ""
     ) {
-      queryObject.priceRange = JSON.stringify(filters.priceRange); // сериализация объекта
+      queryObject.priceRange = JSON.stringify(filters.priceRange); 
     }
 
     if (filters.searchFields && Object.keys(filters.searchFields).length > 0) {
-      queryObject.searchFields = JSON.stringify(filters.searchFields); // сериализация объекта
+      queryObject.searchFields = JSON.stringify(filters.searchFields); 
     }
 
     if (filters.region) {

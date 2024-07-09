@@ -59,8 +59,8 @@
    border: 1px solid rgb(190, 190, 190);
  }
  .form-group input[type="text"]:focus {
-   outline: none; /* Убираем стандартную рамку */
-   box-shadow: 0 0 4px 2px rgba(0, 123, 255, 0.5); /* Добавляем тень */
+   outline: none; 
+   box-shadow: 0 0 4px 2px rgba(0, 123, 255, 0.5); 
    transition: 300ms;
  }
 
@@ -81,7 +81,7 @@
  }
  
  .checkbox-group .form-group .checked {
-   margin-bottom: 2px; /* Add space between rows */
+   margin-bottom: 2px; 
  
    padding: 0px 5px;
    display: flex;
@@ -146,12 +146,12 @@
  }
 
 
- /* Скрыть оригинальный input */
+
 input[type="file"] {
    display: none;
  }
  
- /* Стили для кастомной кнопки */
+
  .custom-file-upload {
    min-width: 180px;
    height: 40px;
@@ -176,7 +176,7 @@ input[type="file"] {
    transform: scale(1.1);
  }
  
- /* Стили для чекбоксов */
+
  
  .checkbox-group {
    width: 80%;
@@ -194,8 +194,7 @@ input[type="file"] {
    color: rgb(0, 110, 255);
  }
  
- /* Стили для стандартного чекбокса */
- /* Скрыть стандартный чекбокс */
+
  input[type="checkbox"] {
    -webkit-appearance: none;
    -moz-appearance: none;
@@ -212,14 +211,14 @@ input[type="file"] {
    transition: 300ms;
  }
  
- /* Стили для состояния чекбокса по умолчанию */
+
  input[type="checkbox"]:checked {
    border-color: #2a878b;
    background-color: #2a878b;
    transition: 300ms;
  }
  
- /* Вариант 1 */
+
  input[type="checkbox"]:checked::after {
    content: "✔";
    position: absolute;
@@ -232,11 +231,11 @@ input[type="file"] {
  }
  
  .Select__control svg {
-   transition: transform 650ms ease-in-out; /* Увеличиваем время анимации */
+   transition: transform 650ms ease-in-out; 
  }
  .special-select__control {
    width: 120px;
-   /* Добавьте другие стили, если необходимо */
+
  }
  .minimum-select__control {
    width: 150px;
@@ -247,7 +246,7 @@ input[type="file"] {
  
  .default-select__control {
    width: 260px;
-   /* Добавьте другие стили, если необходимо */
+
  }
  .type-select__control {
    width: 370px;
@@ -293,7 +292,7 @@ input[type="file"] {
    width: 100px;
  }
  
- /* Добавьте другие стили для текстовых инпутов по необходимости */
+
  
  .region {
    width: 230px;

@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-import configs from "../config/config.js"; // Импорт конфигурации
+import configs from "../config/config.js"; 
 import Admin from "./Admin.js";
 import Property from "./Property.js";
 
@@ -17,7 +17,7 @@ const sequelize = new Sequelize(
     dialect: config.dialect,
     logging: config.logging,
     dialectOptions: {
-      connectTimeout: 60000, // Увеличение времени ожидания
+      connectTimeout: 60000, 
       charset: 'utf8mb4',
     },
     define: {
@@ -27,7 +27,7 @@ const sequelize = new Sequelize(
   }
 );
 
-// Admin
+
 db[Admin.name] = Admin(sequelize, Sequelize);
 db[Property.name] = Property(sequelize, Sequelize);
 

@@ -82,12 +82,12 @@
   color: rgba(255, 255, 255, 0.733);
 }
 
-/* Изменение стилей для стрелок */
+
 .fullscreen_slider .top_content .slick-prev,
 .fullscreen_slider .top_content .slick-next {
-  width: 170px !important; /* Увеличенный размер стрелок */
+  width: 170px !important; 
   height: 100% !important;
-  /* background: none !important; */
+
   background-color: rgba(218, 218, 218, 0.082) !important;
   border: none !important;
   border-radius: 10px;

@@ -7,8 +7,7 @@ export const customStyles = {
     transition: 'border-color 100ms',
     cursor: "pointer",
     borderColor: '#ced4da',
-    borderRadius: '6px', // Добавленный стиль для закругленных углов
-
+    borderRadius: '6px', 
     '&:hover': {
       borderColor: '#80bdff'
     },
@@ -46,8 +45,8 @@ export const customStyles = {
     transformOrigin: 'top',
     marginTop: '4px',
     animation: state.selectProps.menuIsOpen ? 'slideUp 300ms ease-in-out' : 'slideDown 300ms ease-in-out',
-    borderRadius: '10px', // Добавленный стиль для закругленных углов
-    border: '1px solid #DBDBDB' // Добавленный стиль для рамки
+    borderRadius: '10px', 
+    border: '1px solid #DBDBDB' 
   }),
   menuList: (provided) => ({
     ...provided,
@@ -56,10 +55,10 @@ export const customStyles = {
     padding: "10px 0px 10px 0px",
     fontSize: "18px",
     boxShadow: "0px 0px 50px 25px #DEDEDE",
-    borderRadius: '10px', // Добавленный стиль для закругленных углов внутреннего списка
-    height: 'auto', // Максимальная высота меню
-    overflowY: 'auto', // Включаем вертикальную прокрутку
-    // Добавленные стили для кастомизации прокрутки
+    borderRadius: '10px', 
+    height: 'auto', 
+    overflowY: 'auto', 
+   
     '::-webkit-scrollbar': {
       width: '8px',
     },
@@ -81,7 +80,7 @@ export const customStyles = {
     whiteSpace: 'nowrap',
   }),
   indicatorSeparator: (provided) => ({
-    display: 'none', // Удаляет разделитель индикаторов
+    display: 'none', 
   }),
 };
 
@@ -125,8 +124,8 @@ export const customStylesCurrency = {
   }),
   menu: (provided, state) => ({
     ...provided,
-    borderRadius: '4px', // Добавленный стиль для закругленных углов
-    border: '1px solid #D5D5D5', // Добавленный стиль для рамки
+    borderRadius: '4px', 
+    border: '1px solid #D5D5D5', 
     zIndex: 9999,
     opacity: state.selectProps.menuIsOpen ? 1 : 0,
     transform: state.selectProps.menuIsOpen ? 'translateY(0)' : 'translateY(20px)',
@@ -139,10 +138,10 @@ export const customStylesCurrency = {
     ...provided,
     paddingTop: 0,
     paddingBottom: 0,
-    borderRadius: '3px', // Добавленный стиль для закругленных углов внутреннего списка
-    maxHeight: '250px', // Максимальная высота меню
-    overflowY: 'auto', // Включаем вертикальную прокрутку
-    // Добавленные стили для кастомизации прокрутки
+    borderRadius: '3px', 
+    maxHeight: '250px', 
+    overflowY: 'auto', 
+
     '::-webkit-scrollbar': {
       width: '8px',
     },
@@ -163,6 +162,6 @@ export const customStylesCurrency = {
     color: '#495057'
   }),
   indicatorSeparator: (provided) => ({
-    display: 'none', // Удаляет разделитель индикаторов
+    display: 'none', 
   }),
 };

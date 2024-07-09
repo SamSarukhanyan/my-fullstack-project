@@ -25,8 +25,8 @@
  }
 
  .slider_block {
-   margin: 0; /* Убедитесь, что margin: 0; */
-   padding: 0; /* Убедитесь, что padding: 0; */
+   margin: 0; 
+   padding: 0; 
  }
 
  .image_block {
@@ -69,11 +69,11 @@
 
  .slick-prev,
 .slick-next {
-  width: 70px !important; /* Увеличенный размер стрелок */
+  width: 70px !important; 
   height: 80% !important;
   z-index: 1;
   position: absolute;
-  /* background: none !important; */
+
   background-color: rgba(218, 218, 218, 0.212) !important;
   border: none !important;
   border-radius: 10px;
@@ -113,7 +113,7 @@
   fill: rgb(182, 178, 178);
 }
 
-/* Возвращаем стандартные стили для точек переключателей */
+
 .slick-dots {
   position: absolute;
   height: 50px;
@@ -129,7 +129,7 @@
 }
 
 .slick-dots li button {
-  font-size: 0; /* Убираем текст */
+  font-size: 0; 
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -138,7 +138,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative; /* Устанавливаем для последующего добавления псевдоэлементов */
+  position: relative; 
 }
 
 .slick-dots li button:before {
@@ -147,20 +147,20 @@
   display: block;
   width: 16px;
   height: 16px;
-  background-color: #bbb; /* Стандартный цвет */
+  background-color: #bbb; 
   border-radius: 50%;
   border: 1px solid rgb(0, 0, 0);
   transition: opacity 0.3s, transform 0.3s, background-color 0.3s;
 }
 
 .slick-dots li.slick-active button:before {
-  background-color: #717171; /* Цвет активной точки */
+  background-color: #717171; 
   transform: scale(1.1);
   font-size: 0;
   border: 1px solid black;
 }
 
-/* Стили для SVG стрелок */
+
 
 .slick-prev svg:hover {
   fill: rgb(224, 224, 224);

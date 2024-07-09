@@ -1,7 +1,7 @@
 //utils/geocode.js
 import axios from 'axios';
 
-const API_KEY = process.env.OPENCAGE_API_KEY; // Замените на ваш API ключ
+const API_KEY = process.env.OPENCAGE_API_KEY; 
 
 export const geocodeAddress = async (address) => {
   try {
