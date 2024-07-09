@@ -211,11 +211,11 @@ function EditProperty() {
         return "";
     }
   };
-
+ 
   return (
       <div className="ADD_ROOT">
         <form onSubmit={handleSubmit} className="new_Form">
-          <h1>Редактировать Недвижимость</h1>
+          <h1>Edit Property</h1>
           <div className="form-group regionBlock">
             <label>Регион:</label>
             <Select
@@ -513,7 +513,7 @@ function EditProperty() {
             )}
           </div>
 
-          <button type="submit">Обновить</button>
+          <button type="submit">Update</button>
         </form>
       </div>
   );

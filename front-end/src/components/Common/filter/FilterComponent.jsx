@@ -506,6 +506,7 @@ const FilterComponent = ({ onFilterChange, isMapView }) => {
   useEffect(() => {
     if (isFiltersApplied) {
       updateUrlParams();
+      setIsFiltersApplied(false);
     }
   }, [filters, updateUrlParams, isFiltersApplied]);
 
@@ -513,7 +514,7 @@ const FilterComponent = ({ onFilterChange, isMapView }) => {
     <div className={`filter-container ${isMapView ? 'map-view' : ''}`}>
       <div className="reset">
         <button onClick={handleResetFilters} className="reset-button">
-          Сбросить фильтры
+          Reset
         </button>
       </div>
       {filterOptions.regions && (

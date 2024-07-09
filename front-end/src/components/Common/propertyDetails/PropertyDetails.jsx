@@ -1,5 +1,3 @@
-//PropertyDetails.jsx
-
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -53,6 +51,34 @@ const PropertyDetails = () => {
 
   const images = property.photos.map((image) => `${PUBLIC_URL}/${image}`);
 
+  // Функция для отображения информации о недвижимости
+  const renderPropertyInfo = (property) => {
+    return Object.entries(property).map(([key, value]) => {
+      if (value === null || typeof value === "object") {
+        return null;
+      }
+      return (
+        <div key={key} className="property-info-item">
+         <span> <strong>{key}:</strong> {value}</span>
+        </div>
+      );
+    });
+  };
+
+  // Функция для отображения уникальных полей
+  const renderUniqueFields = (uniqueFields) => {
+    return Object.entries(uniqueFields).map(([key, value]) => {
+      if (value === null) {
+        return null;
+      }
+      return (
+        <div key={key} className="property-info-item">
+          <span><strong>{key}:</strong> {Array.isArray(value) ? value.join(", ") : value}</span>
+        </div>
+      );
+    });
+  };
+
   return (
     <section className="product_detail_root">
       <div className="top_content">
@@ -91,6 +117,10 @@ const PropertyDetails = () => {
         ) : (
           <div>No images available</div>
         )}
+      </div>
+      <div className="property_details_content">
+        {renderPropertyInfo(property)}
+        {property.uniqueFields && renderUniqueFields(property.uniqueFields)}
       </div>
     </section>
   );

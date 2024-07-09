@@ -4,7 +4,6 @@
    background-color: rgb(235, 232, 232);
    padding-top: 50px;
    display: flex;
-   border: 3px solid rgb(38, 0, 255);
    flex-direction: column;
    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
  }
@@ -13,7 +12,6 @@
  }
  
  .adminHome_section .content_block{
-   border: 2px solid red;
    display: flex;
   flex-direction: column;
  }
@@ -31,7 +29,6 @@
    display: flex;
    flex-wrap: wrap;
    margin: 40px auto;
-   border: 6px solid rgb(0, 255, 85);
  }
  
  .adminHome_section .product_card {

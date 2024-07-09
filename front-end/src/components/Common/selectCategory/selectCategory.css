@@ -3,11 +3,14 @@
    width: 80%;
    height: auto;
    text-align: start;
+  
  }
  
  .select_category h1 {
-   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
    margin: 20px;
+   color: rgb(104, 104, 104);
+
  }
  
  .select_category ul {
@@ -41,5 +44,6 @@
    background-color: #2a878b;
    border-color: #2a878b;
    color: white;
+   
  }
  

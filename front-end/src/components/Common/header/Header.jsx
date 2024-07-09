@@ -6,13 +6,13 @@ import "./header.css";
 const Header = () => {
   const { isLoggedIn, handleLogout } = useContext(AuthContext);
   const navLinks = [
-    { path: "/admin/properties", text: "Ձեր հայտարարությունները" },
+    { path: "/admin/properties", text: "Your Properties" },
     {
       path: "/admin/add-property",
-      text: "Ավելացնել հայտարարություն",
+      text: "Add Property",
       className: "add-property-link",
     },
-    { path: "/login", text: "Ելք", onClick: handleLogout },
+    { path: "/login", text: "Exit", onClick: handleLogout },
   ];
 
   return (

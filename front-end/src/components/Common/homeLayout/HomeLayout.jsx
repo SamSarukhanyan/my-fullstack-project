@@ -14,18 +14,20 @@ const HomeLayout = () => {
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters);
   };
+ 
 
+  
   return (
     <section className="home_layout">
       <div className="background">
       <Watch />
         <div className="background-content">
           <h2>Living Invest</h2>
-          <p>Բարի գալուստ Մեր կայք</p>
-          <p>Ձեր ուղին դեպի ձեր երազանքի սեփականություն.</p>
+          <p> Welcome to our website</p>
+          <p>Your path to your dream property.</p>
         </div>
       <div className="advertising">
-        <span>Այստեղ կարող է լինել ձեր գովազդը</span>
+        <span>Your ad can be here</span>
       </div>
       </div>
       <div className="root">

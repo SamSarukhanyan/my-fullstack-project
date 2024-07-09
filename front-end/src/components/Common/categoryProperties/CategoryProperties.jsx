@@ -209,9 +209,9 @@ const CategoryProperties = () => {
         <>
           <div className="mapView" onClick={() => navigate(`${location.pathname}?gl=8`)}><span>View in Map</span></div>
           <div className={`products_block ${isDimmed ? "dimmed" : ""}`}>
-            <h2>{category} объявления</h2>
+            <h2>{category}{" "}- аnnouncement</h2>
             <div className="category_count">
-              <span>Результаты поиска - </span>
+              <span>Search results - </span>
               <p>
                 {category}: {data ? data.totalCount : 0}
               </p>

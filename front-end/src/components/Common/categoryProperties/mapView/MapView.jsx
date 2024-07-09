@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { YMaps, Map, Placemark } from 'react-yandex-maps';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -6,6 +6,7 @@ import { PUBLIC_URL } from '../../../../config/config.js';
 import { motion, AnimatePresence } from 'framer-motion';
 import './mapView.css';
 import FilterComponent from '../../filter/FilterComponent.jsx';
+import debounce from 'lodash.debounce';
 
 const fetchPropertiesByCategory = async (category, filters) => {
   const queryObject = {
@@ -24,13 +25,16 @@ const MapView = () => {
   const { category } = useParams();
   const [properties, setProperties] = useState([]);
   const [selectedProperty, setSelectedProperty] = useState(null);
+  const [filters, setFilters] = useState({});
   const [mapState, setMapState] = useState({ center: [41.0379, 44.6869], zoom: 10 });
   const navigate = useNavigate();
   const mapRef = useRef(null);
   const propertyDetailsRef = useRef(null);
   const apiKey = process.env.REACT_APP_YANDEX_MAPS_API_KEY;
 
-  const fetchProperties = useCallback(async (filters = {}) => {
+  const memoizedFilters = useMemo(() => filters, [filters]);
+
+  const fetchProperties = useCallback(async (filters) => {
     try {
       const data = await fetchPropertiesByCategory(category, filters);
       setProperties(data.properties);
@@ -40,8 +44,8 @@ const MapView = () => {
   }, [category]);
 
   useEffect(() => {
-    fetchProperties();
-  }, [fetchProperties]);
+    fetchProperties(memoizedFilters);
+  }, [memoizedFilters, fetchProperties]);
 
   useEffect(() => {
     if (properties.length > 0) {
@@ -61,6 +65,13 @@ const MapView = () => {
     }
   }, [properties]);
 
+  useEffect(() => {
+    document.body.classList.add('no-scroll');
+    return () => {
+      document.body.classList.remove('no-scroll');
+    };
+  }, []);
+
   const handleZoomIn = () => {
     if (mapRef.current) {
       const currentZoom = mapRef.current.getZoom();
@@ -79,25 +90,40 @@ const MapView = () => {
     navigate(-1);
   };
 
-  const handleFilterChange = useCallback((updatedFilters) => {
-    fetchProperties(updatedFilters);
-  }, [fetchProperties]);
+  const debouncedFetchProperties = useMemo(() => {
+    return debounce((updatedFilters) => {
+      setFilters(updatedFilters);
+    }, 300);
+  }, []);
 
-  const handlePlacemarkClick = (property) => {
-    setSelectedProperty(property);
+  const handleFilterChange = (updatedFilters) => {
+    debouncedFetchProperties(updatedFilters);
   };
+
+  const handlePlacemarkClick = useCallback((property) => {
+    setSelectedProperty(property);
+  }, []);
 
   const formatImagePath = (imagePath) => {
     return `${PUBLIC_URL}/${imagePath.replace(/\\/g, '/')}`;
   };
 
-  const handleClosePropertyDetails = () => {
+  const handleClosePropertyDetails = useCallback((event) => {
+    event.stopPropagation();
     setSelectedProperty(null);
-  };
+  }, []);
+
+  const handleCardClick = useCallback((event, property) => {
+    if (event.target.closest('.closePropertyDetailsButton')) {
+      handleClosePropertyDetails(event);
+    } else {
+      navigate(`/properties/${property.id}`);
+    }
+  }, [navigate, handleClosePropertyDetails]);
 
   const handleClickOutside = useCallback((event) => {
     if (propertyDetailsRef.current && !propertyDetailsRef.current.contains(event.target)) {
-      handleClosePropertyDetails();
+      setSelectedProperty(null);
     }
   }, []);
 
@@ -147,6 +173,7 @@ const MapView = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -50 }}
             ref={propertyDetailsRef}
+            onClick={(event) => handleCardClick(event, selectedProperty)}
           >
             <div className="property-card">
               <button className="closePropertyDetailsButton" onClick={handleClosePropertyDetails}>✕</button>

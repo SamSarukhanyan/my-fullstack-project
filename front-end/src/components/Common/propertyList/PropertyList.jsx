@@ -11,8 +11,8 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { FaTh, FaThList } from "react-icons/fa";
 import SearchComponent from "../search/SearchComponent.jsx";
 
-const fetchPropertiesList = async (filters, search, page, limit) => {
-  const queryObject = { page, limit };
+const fetchPropertiesList = async (filters, search, page, limit, sortOrder) => {
+  const queryObject = { page, limit, sortOrder };
 
   if (search) {
     queryObject.search = search;
@@ -22,11 +22,11 @@ const fetchPropertiesList = async (filters, search, page, limit) => {
       filters.priceRange.from !== "" &&
       filters.priceRange.to !== ""
     ) {
-      queryObject.priceRange = JSON.stringify(filters.priceRange); 
+      queryObject.priceRange = JSON.stringify(filters.priceRange);
     }
 
     if (filters.searchFields && Object.keys(filters.searchFields).length > 0) {
-      queryObject.searchFields = JSON.stringify(filters.searchFields); 
+      queryObject.searchFields = JSON.stringify(filters.searchFields);
     }
 
     if (filters.region) {
@@ -69,6 +69,7 @@ const PropertiesList = () => {
   const [showSkeletons, setShowSkeletons] = useState(true);
   const [isGridView, setIsGridView] = useState(true);
   const [isFiltersApplied, setIsFiltersApplied] = useState(false);
+  const [sortOrder, setSortOrder] = useState("asc"); // default sort order
 
   const updateUrlParams = useCallback(() => {
     const params = new URLSearchParams();
@@ -93,9 +94,10 @@ const PropertiesList = () => {
     });
 
     params.set("page", currentPage);
+    params.set("sortOrder", sortOrder);
 
     navigate(`${location.pathname}?${params.toString()}`, { replace: true });
-  }, [filters, searchTerm, currentPage, navigate, location.pathname]);
+  }, [filters, searchTerm, currentPage, sortOrder, navigate, location.pathname]);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -120,17 +122,18 @@ const PropertiesList = () => {
     setCurrentPage(
       filtersFromParams.page ? parseInt(filtersFromParams.page, 10) : 1
     );
+    setSortOrder(filtersFromParams.sortOrder || "asc");
   }, [location.search, setFilters]);
 
   useEffect(() => {
     if (isFiltersApplied) {
       updateUrlParams();
     }
-  }, [filters, searchTerm, currentPage, updateUrlParams, isFiltersApplied]);
+  }, [filters, searchTerm, currentPage, sortOrder, updateUrlParams, isFiltersApplied]);
 
   const { data, isLoading, isError, refetch } = useQuery(
-    ["propertiesList", filters, searchTerm, currentPage],
-    () => fetchPropertiesList(filters, searchTerm, currentPage, itemsPerPage),
+    ["propertiesList", filters, searchTerm, currentPage, sortOrder],
+    () => fetchPropertiesList(filters, searchTerm, currentPage, itemsPerPage, sortOrder),
     {
       keepPreviousData: true,
       onError: (err) => {
@@ -190,6 +193,11 @@ const PropertiesList = () => {
     enableDimming();
   };
 
+  const handleSortChange = (event) => {
+    setSortOrder(event.target.value);
+    setIsFiltersApplied(true);
+  };
+
   const totalPages = data ? Math.ceil(data.totalCount / itemsPerPage) : 1;
 
   const renderSkeletons = (count) => {
@@ -201,7 +209,7 @@ const PropertiesList = () => {
             <Skeleton
               className="skeleton"
               height={200}
-             baseColor="#738B7D"
+              baseColor="#738B7D"
               highlightColor="#829D8D"
             />
           </div>
@@ -209,7 +217,7 @@ const PropertiesList = () => {
             <Skeleton
               className="skeleton"
               width="80%"
-             baseColor="#738B7D"
+              baseColor="#738B7D"
               highlightColor="#829D8D"
             />
           </div>
@@ -225,7 +233,7 @@ const PropertiesList = () => {
             <Skeleton
               className="skeleton"
               width="45%"
-             baseColor="#738B7D"
+              baseColor="#738B7D"
               highlightColor="#829D8D"
             />
           </div>
@@ -242,7 +250,7 @@ const PropertiesList = () => {
               className="skeleton"
               width="60px"
               height="35px"
-             baseColor="#738B7D"
+              baseColor="#738B7D"
               highlightColor="#829D8D"
             />
           </div>
@@ -262,9 +270,8 @@ const PropertiesList = () => {
 
   return (
     <section className="root">
-    
       <div className={`products_block ${isDimmed ? "dimmed" : ""}`}>
-        <h2>Все Недвижимости</h2>
+        <h2>All properties</h2>
         <SearchComponent
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
@@ -273,6 +280,17 @@ const PropertiesList = () => {
           onFocus={handleFocus}
           disableDimming={disableDimming}
         />
+        <div className="sort_selector">
+          <label htmlFor="sortOrder">Sort by price: </label>
+          <select
+            id="sortOrder"
+            value={sortOrder}
+            onChange={handleSortChange}
+          >
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+          </select>
+        </div>
         {showResultsMessage && (
           <div className="results_message">
             <span>

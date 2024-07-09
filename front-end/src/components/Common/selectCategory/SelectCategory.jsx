@@ -8,7 +8,7 @@ function SelectCategory() {
    document.title = 'Add Property'
   return (
     <div className="select_category">
-      <h1>Ընտրեք բաժին՝ անշարժ գույք ավելացնելու համար</h1>
+      <h1>Select a category to add real estate</h1>
       <ul>
         {Object.keys(data.categories).map((category) => (
           <li key={category}>
