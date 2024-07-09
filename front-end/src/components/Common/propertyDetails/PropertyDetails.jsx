@@ -51,7 +51,7 @@ const PropertyDetails = () => {
 
   const images = property.photos.map((image) => `${PUBLIC_URL}/${image}`);
 
-  // Функция для отображения информации о недвижимости
+
   const renderPropertyInfo = (property) => {
     return Object.entries(property).map(([key, value]) => {
       if (value === null || typeof value === "object") {
@@ -65,7 +65,7 @@ const PropertyDetails = () => {
     });
   };
 
-  // Функция для отображения уникальных полей
+
   const renderUniqueFields = (uniqueFields) => {
     return Object.entries(uniqueFields).map(([key, value]) => {
       if (value === null) {
