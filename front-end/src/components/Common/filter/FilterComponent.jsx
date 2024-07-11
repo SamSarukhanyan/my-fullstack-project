@@ -228,7 +228,7 @@ const FilterComponent = ({ onFilterChange, isMapView }) => {
           ...prevFilters.searchFields,
           [fieldName]: {
             ...prevFilters.searchFields[fieldName],
-            [name]: value,
+            [name]: value === "" ? "" : parseFloat(value),
           },
         },
       };
@@ -244,7 +244,7 @@ const FilterComponent = ({ onFilterChange, isMapView }) => {
         ...prevFilters,
         priceRange: {
           ...prevFilters.priceRange,
-          [name]: value,
+          [name]: value === "" ? "" : parseFloat(value),
         },
       };
       return newFilters;
@@ -423,7 +423,8 @@ const FilterComponent = ({ onFilterChange, isMapView }) => {
             <label className="range_label select__placeholder">{truncatedPlaceholder(filter.label, 7)}</label>
             <input
               className="range_input"
-              type="text"
+              type="number"
+              step="any"
               name="from"
               placeholder="От"
               value={filters.searchFields[filter.label]?.from || ""}
@@ -431,7 +432,8 @@ const FilterComponent = ({ onFilterChange, isMapView }) => {
             />
             <input
               className="range_input"
-              type="text"
+              type="number"
+              step="any"
               name="to"
               placeholder="До"
               value={filters.searchFields[filter.label]?.to || ""}
@@ -514,7 +516,7 @@ const FilterComponent = ({ onFilterChange, isMapView }) => {
     <div className={`filter-container ${isMapView ? 'map-view' : ''}`}>
       <div className="reset">
         <button onClick={handleResetFilters} className="reset-button">
-          Reset
+          Reset filters
         </button>
       </div>
       {filterOptions.regions && (
@@ -568,14 +570,16 @@ const FilterComponent = ({ onFilterChange, isMapView }) => {
       <div className="price-inputs">
         <label>Цена</label>
         <input
-          type="text"
+          type="number"
+          step="any"
           name="from"
           placeholder="От"
           value={filters.priceRange.from}
           onChange={handlePriceChange}
         />
         <input
-          type="text"
+          type="number"
+          step="any"
           name="to"
           placeholder="До"
           value={filters.priceRange.to}

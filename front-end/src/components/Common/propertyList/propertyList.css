@@ -59,7 +59,7 @@
 
 .products_block {
   width: auto;
-  min-height: 700px;
+  /* min-height: 700px; */
   padding: 30px 10px !important;
   border-radius: 14px;
   overflow: hidden;
@@ -250,6 +250,7 @@
 
 .skeleton {
   border-radius: 10px;
+  margin: 2px;
 }
 
 .search_container {
@@ -488,4 +489,18 @@
   align-items: center;
   padding: 10px 20px;
   border-radius: 10px;
+}
+
+.sort_selector{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 400px;
+  margin-bottom: -10px;
+  margin-top: 20px !important;
+}
+.sort_selector label{
+  white-space: nowrap;
+  margin-right: 5px;
+  font-size: 17px;
 }

@@ -1,4 +1,7 @@
-const Property = (sequelize, DataTypes) => {
+import { DataTypes } from "sequelize";
+import moment from "moment-timezone";
+
+const Property = (sequelize) => {
   const model = sequelize.define(
     "Property",
     {
@@ -28,7 +31,7 @@ const Property = (sequelize, DataTypes) => {
         allowNull: false,
       },
       price: {
-        type: DataTypes.STRING,
+        type: DataTypes.FLOAT,
         allowNull: false,
       },
       currency: {
@@ -59,9 +62,26 @@ const Property = (sequelize, DataTypes) => {
         type: DataTypes.FLOAT,
         allowNull: true,
       },
+      createdAt: {
+        type: DataTypes.DATE,
+        defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
+      }
     },
     {
-      timestamps: false,
+      hooks: {
+        beforeCreate: (instance, options) => {
+          const now = moment.tz('Asia/Yerevan').format('YYYY-MM-DD HH:mm:ss');
+          instance.createdAt = now;
+          instance.updatedAt = now;
+        },
+        beforeUpdate: (instance, options) => {
+          instance.updatedAt = moment.tz('Asia/Yerevan').format('YYYY-MM-DD HH:mm:ss');
+        }
+      }
     }
   );
 

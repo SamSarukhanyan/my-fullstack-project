@@ -27,7 +27,6 @@ const sequelize = new Sequelize(
   }
 );
 
-
 db[Admin.name] = Admin(sequelize, Sequelize);
 db[Property.name] = Property(sequelize, Sequelize);
 

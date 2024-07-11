@@ -109,9 +109,9 @@
   z-index: 3001 !important;
 }
 .home_container {
-  width: 1125px;
+  width: auto;
+  max-width: 900px;
   height: auto;
-
   margin: auto;
   display: flex;
   justify-content: flex-start;

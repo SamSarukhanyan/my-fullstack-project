@@ -9,23 +9,37 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { FaTh, FaThList } from "react-icons/fa";
 import SearchComponent from "../search/SearchComponent.jsx";
+import Select from "react-select";
 import MapView from "./mapView/MapView.jsx";
 import "./categoryProperties.css";
 import "../propertyList/propertyList.css";
+import { sortStyles } from "../../customStyles.js";
 
-const fetchPropertiesByCategory = async (category, filters, search, page, limit) => {
+const fetchPropertiesByCategory = async (
+  category,
+  filters,
+  search,
+  page,
+  limit,
+  sortBy
+) => {
   const queryObject = {
     ...filters,
     page,
     limit,
     search,
-    priceRange: filters.priceRange ? JSON.stringify(filters.priceRange) : "{}", 
-    searchFields: filters.searchFields ? JSON.stringify(filters.searchFields) : "{}",
+    sortBy,
+    priceRange: filters.priceRange ? JSON.stringify(filters.priceRange) : "{}",
+    searchFields: filters.searchFields
+      ? JSON.stringify(filters.searchFields)
+      : "{}",
   };
 
   const queryString = new URLSearchParams(queryObject).toString();
 
-  const { data } = await axios.get(`${PUBLIC_URL}/api/properties/category/${category}?${queryString}`);
+  const { data } = await axios.get(
+    `${PUBLIC_URL}/api/properties/category/${category}?${queryString}`
+  );
   return data;
 };
 
@@ -44,16 +58,18 @@ const CategoryProperties = () => {
   const [showSkeletons, setShowSkeletons] = useState(true);
   const [isGridView, setIsGridView] = useState(true);
   const [isFiltersApplied, setIsFiltersApplied] = useState(false);
+  const [sortBy, setSortBy] = useState("");
 
   const { data, isLoading, isError, refetch } = useQuery(
-    ["categoryProperties", category, filters, searchTerm, currentPage],
+    ["categoryProperties", category, filters, searchTerm, currentPage, sortBy],
     () =>
       fetchPropertiesByCategory(
         category,
         filters,
         searchTerm,
         currentPage,
-        itemsPerPage
+        itemsPerPage,
+        sortBy
       ),
     {
       keepPreviousData: true,
@@ -73,7 +89,12 @@ const CategoryProperties = () => {
     }
 
     Object.keys(filters).forEach((key) => {
-      if (filters[key] && (typeof filters[key] === 'string' ? filters[key] : Object.keys(filters[key]).length > 0)) {
+      if (
+        filters[key] &&
+        (typeof filters[key] === "string"
+          ? filters[key]
+          : Object.keys(filters[key]).length > 0)
+      ) {
         if (typeof filters[key] === "object") {
           params.set(key, JSON.stringify(filters[key]));
         } else {
@@ -83,10 +104,13 @@ const CategoryProperties = () => {
     });
 
     params.set("page", currentPage);
+    if (sortBy) {
+      params.set("sortBy", sortBy);
+    }
 
     navigate(`${location.pathname}?${params.toString()}`, { replace: true });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters, searchTerm, navigate, location.pathname]);
+  }, [filters, searchTerm, navigate, location.pathname, sortBy, currentPage]);
 
   useEffect(() => {
     setFilters((prevFilters) => ({
@@ -99,6 +123,7 @@ const CategoryProperties = () => {
   useEffect(() => {
     if (isFiltersApplied) {
       updateUrlParams();
+      setIsFiltersApplied(false);
     }
   }, [filters, searchTerm, updateUrlParams, isFiltersApplied]);
 
@@ -119,6 +144,10 @@ const CategoryProperties = () => {
     return imagePath.replace(/\\/g, "/");
   };
 
+  const cleanDateString = (dateString) => {
+    return dateString.replace("T", " ").replace(".000Z", "").replace(/-/g, "/");
+  };
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -134,14 +163,21 @@ const CategoryProperties = () => {
 
   const handleClearSearch = () => {
     setSearchTerm("");
+    refetch();
     disableDimming();
     setCurrentPage(1);
-    refetch();
     setIsFiltersApplied(true);
   };
 
   const handleFocus = () => {
     enableDimming();
+  };
+
+  const handleSortChange = (selectedOption) => {
+    setSortBy(selectedOption ? selectedOption.value : '');
+    refetch();
+    setCurrentPage(1);
+    setIsFiltersApplied(true);
   };
 
   const totalPages = data ? Math.ceil(data.totalCount / itemsPerPage) : 1;
@@ -159,7 +195,7 @@ const CategoryProperties = () => {
               highlightColor="#829D8D"
             />
           </div>
-          <div className="product_title">
+          <div>
             <Skeleton
               className="skeleton"
               width="80%"
@@ -167,7 +203,7 @@ const CategoryProperties = () => {
               highlightColor="#829D8D"
             />
           </div>
-          <div className="product_price">
+          <div>
             <Skeleton
               className="skeleton"
               width="40%"
@@ -175,7 +211,7 @@ const CategoryProperties = () => {
               highlightColor="#829D8D"
             />
           </div>
-          <div className="product_details">
+          <div>
             <Skeleton
               className="skeleton"
               width="60px"
@@ -198,18 +234,20 @@ const CategoryProperties = () => {
     filters.propertyId ||
     Object.keys(filters.searchFields).length > 0;
 
-  const urlParams = new URLSearchParams(location.search);
-  const gl = urlParams.get('gl');
-
   return (
     <section className="category_section">
-      {gl ? (
+      {location.search.includes("gl=8") ? (
         <MapView category={category} filters={filters} />
       ) : (
         <>
-          <div className="mapView" onClick={() => navigate(`${location.pathname}?gl=8`)}><span>View in Map</span></div>
+          <div
+            className="mapView"
+            onClick={() => navigate(`${location.pathname}?gl=8`)}
+          >
+            <span>View in Map</span>
+          </div>
           <div className={`products_block ${isDimmed ? "dimmed" : ""}`}>
-            <h2>{category}{" "}- аnnouncement</h2>
+            <h2>{category} - аnnouncement</h2>
             <div className="category_count">
               <span>Search results - </span>
               <p>
@@ -224,9 +262,38 @@ const CategoryProperties = () => {
               onFocus={handleFocus}
               disableDimming={disableDimming}
             />
+            <div className="sort_selector">
+              <label htmlFor="sortBy">Sort by: </label>
+              <Select
+                id="sortBy"
+                value={
+                  sortBy
+                    ? {
+                        value: sortBy,
+                        label: sortBy
+                          .replace("-", " ")
+                          .replace("createdAt", "date added")
+                          .replace("asc", "ascending")
+                          .replace("desc", "descending"),
+                      }
+                    : null
+                }
+                onChange={handleSortChange}
+                options={[
+                  { value: "price-asc", label: "Price ascending" },
+                  { value: "price-desc", label: "Price descending" },
+                  { value: "createdAt-asc", label: "Date added ascending" },
+                  { value: "createdAt-desc", label: "Date added descending" },
+                ]}
+                styles={sortStyles}
+                isClearable={true}
+                menuPlacement="auto"
+              />
+            </div>
             {showResultsMessage && (
               <div className="results_message">
-                По вашему запросу найдено {data ? data.totalCount : 0} результат(ов)
+                По вашему запросу найдено {data ? data.totalCount : 0}{" "}
+                результат(ов)
               </div>
             )}
             <div className="view_toggle">
@@ -278,10 +345,17 @@ const CategoryProperties = () => {
                         <div className="product_title">
                           Категория: {property.category}
                         </div>
-                        <div className="product_title">id: {property.propertyId}</div>
-                        <div className="product_title">Регион: {property.region}</div>
+                        <div className="product_title">
+                          id: {property.propertyId}
+                        </div>
+                        <div className="product_title">
+                          Регион: {property.region}
+                        </div>
                         <div className="product_title">
                           Подрегион: {property.subregion}
+                        </div>
+                        <div className="product_title">
+                          Date: {cleanDateString(property.createdAt)}
                         </div>
                       </div>
                     </div>

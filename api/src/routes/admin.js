@@ -5,9 +5,9 @@ import {
   addProperty,
   deleteProperty,
   updateProperty,
-  getPropertyDetails,
 } from "../controllers/admin/admin.js";
 import upload from "../middleware/multer.js";
+import { getPropertyDetails } from "../controllers/properties/properties.js";
 
 const router = express.Router();
 

@@ -10,9 +10,12 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { FaTh, FaThList } from "react-icons/fa";
 import SearchComponent from "../search/SearchComponent.jsx";
+import Select from "react-select";
+import { sortStyles } from "../../customStyles.js";
+import './propertyList.css'
 
-const fetchPropertiesList = async (filters, search, page, limit, sortOrder) => {
-  const queryObject = { page, limit, sortOrder };
+const fetchPropertiesList = async (filters, search, page, limit, sortBy) => {
+  const queryObject = { page, limit, sortBy };
 
   if (search) {
     queryObject.search = search;
@@ -69,7 +72,7 @@ const PropertiesList = () => {
   const [showSkeletons, setShowSkeletons] = useState(true);
   const [isGridView, setIsGridView] = useState(true);
   const [isFiltersApplied, setIsFiltersApplied] = useState(false);
-  const [sortOrder, setSortOrder] = useState("asc"); // default sort order
+  const [sortBy, setSortBy] = useState('');
 
   const updateUrlParams = useCallback(() => {
     const params = new URLSearchParams();
@@ -94,10 +97,12 @@ const PropertiesList = () => {
     });
 
     params.set("page", currentPage);
-    params.set("sortOrder", sortOrder);
+    if (sortBy) {
+      params.set("sortBy", sortBy);
+    }
 
     navigate(`${location.pathname}?${params.toString()}`, { replace: true });
-  }, [filters, searchTerm, currentPage, sortOrder, navigate, location.pathname]);
+  }, [filters, searchTerm, currentPage, sortBy, navigate, location.pathname]);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -122,18 +127,19 @@ const PropertiesList = () => {
     setCurrentPage(
       filtersFromParams.page ? parseInt(filtersFromParams.page, 10) : 1
     );
-    setSortOrder(filtersFromParams.sortOrder || "asc");
+    setSortBy(filtersFromParams.sortBy || '');
   }, [location.search, setFilters]);
 
   useEffect(() => {
     if (isFiltersApplied) {
       updateUrlParams();
+      setIsFiltersApplied(false);
     }
-  }, [filters, searchTerm, currentPage, sortOrder, updateUrlParams, isFiltersApplied]);
+  }, [filters, searchTerm, currentPage, sortBy, updateUrlParams, isFiltersApplied]);
 
   const { data, isLoading, isError, refetch } = useQuery(
-    ["propertiesList", filters, searchTerm, currentPage, sortOrder],
-    () => fetchPropertiesList(filters, searchTerm, currentPage, itemsPerPage, sortOrder),
+    ["propertiesList", filters, searchTerm, currentPage, sortBy],
+    () => fetchPropertiesList(filters, searchTerm, currentPage, itemsPerPage, sortBy),
     {
       keepPreviousData: true,
       onError: (err) => {
@@ -163,6 +169,10 @@ const PropertiesList = () => {
     return imagePath.replace(/\\/g, "/");
   };
 
+  const cleanDateString = (dateString) => {
+    return dateString.replace('T', ' ').replace('.000Z', '').replace(/-/g, '/');
+  };
+
   const handleViewDetails = (id) => {
     navigate(`/properties/${id}`);
   };
@@ -183,9 +193,9 @@ const PropertiesList = () => {
 
   const handleClearSearch = () => {
     setSearchTerm("");
+    refetch();
     disableDimming();
     setCurrentPage(1);
-    refetch();
     setIsFiltersApplied(true);
   };
 
@@ -193,8 +203,10 @@ const PropertiesList = () => {
     enableDimming();
   };
 
-  const handleSortChange = (event) => {
-    setSortOrder(event.target.value);
+  const handleSortChange = (selectedOption) => {
+    setSortBy(selectedOption ? selectedOption.value : '');
+    refetch();
+    setCurrentPage(1);
     setIsFiltersApplied(true);
   };
 
@@ -213,7 +225,7 @@ const PropertiesList = () => {
               highlightColor="#829D8D"
             />
           </div>
-          <div className="product_title">
+          <div>
             <Skeleton
               className="skeleton"
               width="80%"
@@ -229,7 +241,7 @@ const PropertiesList = () => {
               highlightColor="#829D8D"
             />
           </div>
-          <div className="product_price">
+          <div>
             <Skeleton
               className="skeleton"
               width="45%"
@@ -245,11 +257,11 @@ const PropertiesList = () => {
               highlightColor="#829D8D"
             />
           </div>
-          <div className="product_details">
+          <div>
             <Skeleton
               className="skeleton"
-              width="60px"
-              height="35px"
+              width="64%"
+              height="20px"
               baseColor="#738B7D"
               highlightColor="#829D8D"
             />
@@ -281,15 +293,23 @@ const PropertiesList = () => {
           disableDimming={disableDimming}
         />
         <div className="sort_selector">
-          <label htmlFor="sortOrder">Sort by price: </label>
-          <select
-            id="sortOrder"
-            value={sortOrder}
+          <label htmlFor="sortBy">Sort by: </label>
+          <Select
+            id="sortBy"
+            value={
+              sortBy ? { value: sortBy, label: sortBy.replace('-', ' ').replace('createdAt', 'date added').replace('asc', 'ascending').replace('desc', 'descending') } : null
+            }
             onChange={handleSortChange}
-          >
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
-          </select>
+            options={[
+              { value: "price-asc", label: "Price ascending" },
+              { value: "price-desc", label: "Price descending" },
+              { value: "createdAt-asc", label: "Date added ascending" },
+              { value: "createdAt-desc", label: "Date added descending" },
+            ]}
+            styles={sortStyles}
+            isClearable={true}
+            menuPlacement="auto"
+          />
         </div>
         {showResultsMessage && (
           <div className="results_message">
@@ -356,6 +376,9 @@ const PropertiesList = () => {
                     </div>
                     <div className="product_title">
                       Subregion: {property.subregion}
+                    </div>
+                    <div className="product_title">
+                      Date: {cleanDateString(property.createdAt)}
                     </div>
                   </div>
                 </div>

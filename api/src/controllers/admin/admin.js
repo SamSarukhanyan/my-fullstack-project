@@ -1,6 +1,7 @@
 import db from "../../models/index.js";
+import fs from "fs";
 import { geocodeAddress } from '../../utils/geocode.js'; 
-
+import moment from 'moment-timezone';
 
 export const addProperty = async (req, res) => {
   try {
@@ -43,6 +44,8 @@ export const addProperty = async (req, res) => {
       contactInfo,
       lat: coordinates.lat,
       lng: coordinates.lng,
+      createdAt: moment.tz('Asia/Yerevan').format(),
+      updatedAt: moment.tz('Asia/Yerevan').format(),
     };
 
     const rentalCategories = ["rent-house", "rent-apartment", "rent-commercial"];
@@ -61,7 +64,6 @@ export const addProperty = async (req, res) => {
 
 
 
-
 export const getAdminProperties = async (req, res) => {
   try {
     const properties = await db.Property.findAll({raw: true});
@@ -71,18 +73,7 @@ export const getAdminProperties = async (req, res) => {
   }
 };
 
-export const getPropertyDetails = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const property = await db.Property.findByPk(id);
-    if (!property) {
-      return res.status(404).json({ error: 'Property not found' });
-    }
-    res.status(200).json(property);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+
 
 export const updateProperty = async (req, res) => {
   try {
@@ -138,6 +129,18 @@ export const updateProperty = async (req, res) => {
 
     await property.update(updateData);
 
+ 
+    const oldPhotosArray = JSON.parse(oldPhotos);
+    oldPhotosArray.forEach(photo => {
+      if (!updateData.photos.includes(photo)) {
+        fs.unlink(photo, (err) => {
+          if (err) {
+            console.error(`Error deleting photo: ${photo}`, err);
+          }
+        });
+      }
+    });
+
     res.status(200).json(property);
   } catch (error) {
     console.error('Error updating property:', error);
@@ -152,6 +155,16 @@ export const deleteProperty = async (req, res) => {
     if (!property) {
       return res.status(404).json({ error: 'Property not found' });
     }
+
+
+    property.photos.forEach(photo => {
+      fs.unlink(photo, (err) => {
+        if (err) {
+          console.error(`Error deleting photo: ${photo}`, err);
+        }
+      });
+    });
+
     await property.destroy();
     res.status(200).json({ message: 'Property deleted successfully' });
   } catch (error) {
