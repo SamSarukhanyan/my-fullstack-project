@@ -1,7 +1,6 @@
-// src/components/Common/propertyCard/PropertyCard.jsx
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import moment from "moment-timezone";
 import { PUBLIC_URL } from "../../../config/config.js";
 import "./propertyCard.css";
 
@@ -12,8 +11,8 @@ const PropertyCard = ({ property, isGridView }) => {
     return imagePath.replace(/\\/g, "/");
   };
 
-  const cleanDateString = (dateString) => {
-    return dateString.replace('T', ' ').replace('.000Z', '').replace(/-/g, '/');
+  const formatDateString = (dateString) => {
+    return moment(dateString).tz('Asia/Yerevan').format('YYYY-MM-DD HH:mm:ss');
   };
 
   const handleViewDetails = () => {
@@ -53,7 +52,7 @@ const PropertyCard = ({ property, isGridView }) => {
           Subregion: {property.subregion}
         </div>
         <div className="product_title">
-          Date: {cleanDateString(property.createdAt)}
+          Date: {formatDateString(property.createdAt)}
         </div>
       </div>
     </div>

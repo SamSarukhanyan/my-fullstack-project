@@ -10,7 +10,7 @@ export default {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     dialect: "mysql",
-    logging: console.log, 
+    logging: console.log,
     dialectOptions: {
       connectTimeout: 60000,
       charset: 'utf8mb4',

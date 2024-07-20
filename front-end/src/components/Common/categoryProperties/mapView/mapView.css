@@ -68,7 +68,6 @@
 }
 .property-details:hover{
   background-color: #d8d8d8;
-  transform: scale(1.01) !important;
 }
 .property-card {
   display: flex;

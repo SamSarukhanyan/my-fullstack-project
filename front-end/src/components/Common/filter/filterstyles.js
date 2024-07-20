@@ -1,10 +1,9 @@
 export const customStyles = {
   control: (provided, state) => ({
     ...provided,
-    zIndex: "4000 !important",
     width: "100%",
     height: "auto",
-    fontSize: '18px',
+    fontSize: '16px',
     transition: "border-color 100ms",
     cursor: "pointer",
     borderColor: "#ced4da",
@@ -38,7 +37,7 @@ export const customStyles = {
     position: 'absolute',
     left: '35%',
     zIndex: 9999,
-    fontSize: "18px",
+    fontSize: "16px",
     width: "auto",
     opacity: state.selectProps.menuIsOpen ? 1 : 0,
     transform: state.selectProps.menuIsOpen
@@ -58,7 +57,7 @@ export const customStyles = {
     width: "100%",
     whiteSpace: "nowrap",
     padding: "10px 0px 10px 0px",
-    fontSize: "18px",
+    fontSize: "16px",
     boxShadow: "0px 0px 15px 2px rgba(0, 0, 0, 0.185)",
     borderRadius: "10px",
     height: "auto",
@@ -160,7 +159,7 @@ export const advancedStyles = {
     ...provided,
     position: 'absolute',
     left: '40%',
-    fontSize: "18px",
+    fontSize: "16px",
     width: "auto",
     opacity: state.selectProps.menuIsOpen ? 1 : 0,
     transform: state.selectProps.menuIsOpen
@@ -180,7 +179,7 @@ export const advancedStyles = {
     width: "100%",
     whiteSpace: "nowrap",
     padding: "10px 0px 10px 0px",
-    fontSize: "18px",
+    fontSize: "16px",
     boxShadow: "0px 0px 30px 5px #C4C4C4",
     borderRadius: "10px",
     height: "auto",

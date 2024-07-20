@@ -47,11 +47,11 @@
   position: relative;
   z-index: 1; /* Убедитесь, что z-index установлен корректно */
   width: 250px !important;
-  height: 350px;
+  height: auto;
   border-radius: 10px;
   margin: 5px;
   margin-top: 20px;
-  font-size: 18px;
+  font-size: 16px;
   transition: transform 100ms; /* Убедитесь, что трансформация применяется */
   background-color: white;
   cursor: pointer; /* Ensure cursor applies to entire card */
@@ -68,19 +68,21 @@
 .top_product_card:hover > .top_product_images {
   transform: scale(1.01);
   transition: 200ms;
+
 }
 
 .top_product_images {
   width: 250px;
   height: 200px;
   position: relative;
+  border-radius: 7px 7px 0px 0px !important;
 }
 
 .top_product_image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 7px;
+  border-radius: 7px 7px 0px 0px !important;
 }
 
 .top_bottom_content {

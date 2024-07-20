@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Slider from "react-slick";
 import FullScreenSlider from "../../Common/propertyDetails/fullscreen/FullScreenSlider";
+import moment from "moment-timezone";
 import "./propertyDetails.css";
 import { PUBLIC_URL } from "../../../config/config";
 import "slick-carousel/slick/slick.css";
@@ -51,6 +52,9 @@ const PropertyDetails = () => {
 
   const images = property.photos.map((image) => `${PUBLIC_URL}/${image}`);
 
+  const formatDateString = (dateString) => {
+    return moment(dateString).tz('Asia/Yerevan').format('YYYY-MM-DD HH:mm:ss');
+  };
 
   const renderPropertyInfo = (property) => {
     return Object.entries(property).map(([key, value]) => {
@@ -59,12 +63,11 @@ const PropertyDetails = () => {
       }
       return (
         <div key={key} className="property-info-item">
-         <span> <strong>{key}:</strong> {value}</span>
+         <span> <strong>{key}:</strong> {key === 'createdAt' || key === 'updatedAt' ? formatDateString(value) : value}</span>
         </div>
       );
     });
   };
-
 
   const renderUniqueFields = (uniqueFields) => {
     return Object.entries(uniqueFields).map(([key, value]) => {

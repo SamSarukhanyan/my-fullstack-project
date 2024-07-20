@@ -1,7 +1,7 @@
 import db from "../../models/index.js";
 import fs from "fs";
 import { geocodeAddress } from '../../utils/geocode.js'; 
-import moment from 'moment-timezone';
+import moment from "moment-timezone";
 
 export const addProperty = async (req, res) => {
   try {
@@ -32,6 +32,15 @@ export const addProperty = async (req, res) => {
       coordinates = await geocodeAddress(address);
     }
 
+    // Проверка и преобразование price
+    const priceNumber = parseFloat(price);
+    if (isNaN(priceNumber)) {
+      return res.status(400).json({ error: 'Invalid price value' });
+    }
+
+    const currentTime = moment.tz('Asia/Yerevan').format('YYYY-MM-DD HH:mm:ss');
+    console.log('Current Time:', currentTime);
+
     const propertyData = {
       category,
       propertyStatus, 
@@ -40,14 +49,14 @@ export const addProperty = async (req, res) => {
       subregion,
       uniqueFields: JSON.parse(uniqueFields),
       info,
-      price,
+      price: priceNumber, // Используем преобразованное значение
       currency,
       photos,
       contactInfo,
       lat: coordinates.lat,
       lng: coordinates.lng,
-      createdAt: moment.tz('Asia/Yerevan').format(),
-      updatedAt: moment.tz('Asia/Yerevan').format(),
+      createdAt: currentTime,
+      updatedAt: currentTime,
     };
 
     const rentalCategories = ["rent-house", "rent-apartment", "rent-commercial"];
@@ -63,6 +72,9 @@ export const addProperty = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+
 
 
 

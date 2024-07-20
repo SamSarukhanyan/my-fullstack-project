@@ -1,9 +1,11 @@
+
+
 .category_count {
   display: flex;
   justify-content: center;
   align-items: center;
   color: rgb(44, 63, 50);
-  font-size: 17px;
+  font-size: 16px;
 }
 .category_count p {
   margin-left: 5px;
@@ -15,7 +17,7 @@
   align-items: center;
   justify-content: start;
   margin-bottom: 10px;
-  font-size: 20px;
+  font-size: 16px;
 }
 
 @media (max-width: 1308px){

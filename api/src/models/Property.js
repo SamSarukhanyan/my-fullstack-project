@@ -1,5 +1,5 @@
-import { DataTypes } from "sequelize";
 import moment from "moment-timezone";
+import { DataTypes } from "sequelize";
 
 const Property = (sequelize) => {
   const model = sequelize.define(
@@ -79,12 +79,11 @@ const Property = (sequelize) => {
     {
       hooks: {
         beforeCreate: (instance, options) => {
-          const now = moment.tz('Asia/Yerevan').format('YYYY-MM-DD HH:mm:ss');
-          instance.createdAt = now;
-          instance.updatedAt = now;
+          instance.setDataValue('createdAt', moment().tz('Asia/Yerevan').format('YYYY-MM-DD HH:mm:ss'));
+          instance.setDataValue('updatedAt', moment().tz('Asia/Yerevan').format('YYYY-MM-DD HH:mm:ss'));
         },
         beforeUpdate: (instance, options) => {
-          instance.updatedAt = moment.tz('Asia/Yerevan').format('YYYY-MM-DD HH:mm:ss');
+          instance.setDataValue('updatedAt', moment().tz('Asia/Yerevan').format('YYYY-MM-DD HH:mm:ss'));
         }
       }
     }

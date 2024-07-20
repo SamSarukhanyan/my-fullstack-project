@@ -191,7 +191,7 @@ export const sortStyles = {
     ...provided,
     width: "250px",
     height: "auto",
-    fontSize: "20px",
+    fontSize: "16px",
     transition: "border-color 100ms",
     cursor: "pointer",
     borderColor: "#ced4da",
@@ -210,7 +210,7 @@ export const sortStyles = {
     ...provided,
     width: "auto",
     height: "auto",
-    fontSize: "20px",
+    fontSize: "16px",
     paddingTop: "5px",
     transition: "background-color 100ms, color 100ms",
     cursor: "pointer",
@@ -224,7 +224,7 @@ export const sortStyles = {
   menu: (provided, state) => ({
     ...provided,
     zIndex: 9999,
-    fontSize: "20px",
+    fontSize: "16px",
     width: "auto",
     opacity: state.selectProps.menuIsOpen ? 1 : 0,
     transform: state.selectProps.menuIsOpen
@@ -244,7 +244,7 @@ export const sortStyles = {
     width: "100%",
     whiteSpace: "nowrap",
     padding: "10px 0px 10px 0px",
-    fontSize: "20x",
+    fontSize: "16x",
     boxShadow: "0px 0px 15px 2px rgba(0, 0, 0, 0.185)",
     borderRadius: "10px",
     height: "auto",
@@ -273,7 +273,7 @@ export const sortStyles = {
     color: "rgb(29, 172, 53)",
     width: "100%",
     height: "auto",
-    fontSize: "18px",
+    fontSize: "16px",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
@@ -287,7 +287,7 @@ export const sortStyles = {
       color: "#505050",
       whiteSpace: "nowrap",
       marginRight: "8px",
-      fontSize: "20x",
+      fontSize: "16x",
     },
   }),
   indicatorSeparator: () => ({
@@ -305,7 +305,7 @@ export const sortStyles = {
   }),
   placeholder: (provided, state) => ({
     ...provided,
-    fontSize: "20x",
+    fontSize: "16x",
     color: "#505050", // здесь изменяем цвет placeholder
   }),
 };

@@ -24,10 +24,9 @@
   width: 52%;
   height: auto !important;
   margin-left: 30px;
-  font-size: 19px;
+  font-size: 16px;
   border-radius: 15px;
   padding: 10px 10px 10px 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
  .slider_root {
    max-width: 800px;

@@ -1,6 +1,7 @@
 // src/components/Common/topProperties/TopProperties.jsx
 
 import React, { useEffect, useRef } from "react";
+import moment from "moment-timezone";
 import "./topProperties.css";
 import { PUBLIC_URL } from "../../../config/config.js";
 import { useNavigate } from "react-router-dom";
@@ -33,8 +34,8 @@ const TopProperties = ({ topProperties }) => {
     return imagePath.replace(/\\/g, "/");
   };
 
-  const cleanDateString = (dateString) => {
-    return dateString.replace("T", " ").replace(".000Z", "").replace(/-/g, "/");
+  const formatDateString = (dateString) => {
+    return moment(dateString).tz('Asia/Yerevan').format('YYYY-MM-DD HH:mm:ss');
   };
 
   const handleViewDetails = (id) => {
@@ -77,7 +78,7 @@ const TopProperties = ({ topProperties }) => {
                 Subregion: {property.subregion}
               </div>
               <div className="product_title">
-                Date: {cleanDateString(property.createdAt)}
+                Date: {formatDateString(property.createdAt)}
               </div>
             </div>
           </div>
