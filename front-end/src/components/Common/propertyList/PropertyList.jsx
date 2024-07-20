@@ -1,3 +1,5 @@
+// src/components/Common/propertyList/PropertiesList.jsx
+
 import React, { useEffect, useState, useCallback } from "react";
 import { useQuery } from "react-query";
 import axios from "axios";
@@ -11,8 +13,9 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { FaTh, FaThList } from "react-icons/fa";
 import SearchComponent from "../search/SearchComponent.jsx";
 import Select from "react-select";
+import PropertyCard from "../propertyCard/PropertyCard";
 import { sortStyles } from "../../customStyles.js";
-import './propertyList.css'
+import './propertyList.css';
 
 const fetchPropertiesList = async (filters, search, page, limit, sortBy) => {
   const queryObject = { page, limit, sortBy };
@@ -165,17 +168,7 @@ const PropertiesList = () => {
     }
   }, [data, setProperties]);
 
-  const formatImagePath = (imagePath) => {
-    return imagePath.replace(/\\/g, "/");
-  };
 
-  const cleanDateString = (dateString) => {
-    return dateString.replace('T', ' ').replace('.000Z', '').replace(/-/g, '/');
-  };
-
-  const handleViewDetails = (id) => {
-    navigate(`/properties/${id}`);
-  };
 
   const handlePageChange = (page, event) => {
     event.preventDefault();
@@ -283,6 +276,7 @@ const PropertiesList = () => {
   return (
     <section className="root">
       <div className={`products_block ${isDimmed ? "dimmed" : ""}`}>
+        
         <h2>All properties</h2>
         <SearchComponent
           searchTerm={searchTerm}
@@ -292,33 +286,44 @@ const PropertiesList = () => {
           onFocus={handleFocus}
           disableDimming={disableDimming}
         />
-        <div className="sort_selector">
-          <label htmlFor="sortBy">Sort by: </label>
-          <Select
-            id="sortBy"
-            value={
-              sortBy ? { value: sortBy, label: sortBy.replace('-', ' ').replace('createdAt', 'date added').replace('asc', 'ascending').replace('desc', 'descending') } : null
-            }
-            onChange={handleSortChange}
-            options={[
-              { value: "price-asc", label: "Price ascending" },
-              { value: "price-desc", label: "Price descending" },
-              { value: "createdAt-asc", label: "Date added ascending" },
-              { value: "createdAt-desc", label: "Date added descending" },
-            ]}
-            styles={sortStyles}
-            isClearable={true}
-            menuPlacement="auto"
-          />
-        </div>
-        {showResultsMessage && (
-          <div className="results_message">
-            <span>
-              По вашему запросу найдено {data ? data.totalCount : 0}{" "}
-              результат(ов)
-            </span>
+        <div className="center">
+           <div className="sort_selector">
+              <label htmlFor="sortBy">Sort by: </label>
+              <Select
+                id="sortBy"
+                value={
+                  sortBy
+                    ? {
+                        value: sortBy,
+                        label: sortBy
+                          .replace("-", " ")
+                          .replace("createdAt", "date added")
+                          .replace("asc", "ascending")
+                          .replace("desc", "descending"),
+                      }
+                    : null
+                }
+                onChange={handleSortChange}
+                options={[
+                  { value: "price-asc", label: "Price ascending" },
+                  { value: "price-desc", label: "Price descending" },
+                  { value: "createdAt-asc", label: "Date added ascending" },
+                  { value: "createdAt-desc", label: "Date added descending" },
+                ]}
+                styles={sortStyles}
+                isClearable={true}
+                menuPlacement="auto"
+              />
+            </div>
+          <div className="">
+          {showResultsMessage && (
+              <div className="results_message">
+                По вашему запросу найдено {data ? data.totalCount : 0}{" "}
+                результат(ов)
+              </div>
+            )}
           </div>
-        )}
+           </div>
         <div className="view_toggle">
           <FaTh
             className={`view_icon ${isGridView ? "active" : ""}`}
@@ -343,45 +348,7 @@ const PropertiesList = () => {
           >
             {properties && properties.length > 0 ? (
               properties.map((property) => (
-                <div
-                  key={property.id}
-                  className="product_card"
-                  onClick={() => handleViewDetails(property.id)}
-                >
-                  <div className="product_images">
-                    {property.photos && property.photos.length > 0 ? (
-                      <img
-                        src={`${PUBLIC_URL}/${formatImagePath(
-                          property.photos[0]
-                        )}`}
-                        alt="Property"
-                        className="product_image"
-                      />
-                    ) : (
-                      <div>No images available</div>
-                    )}
-                  </div>
-                  <div className="bottom_content">
-                    <div className="product_price">
-                      {property.price} {property.currency}
-                    </div>
-                    <div className="product_title">
-                      Category: {property.category}
-                    </div>
-                    <div className="product_title">
-                      Property ID: {property.propertyId}
-                    </div>
-                    <div className="product_title">
-                      Region: {property.region}
-                    </div>
-                    <div className="product_title">
-                      Subregion: {property.subregion}
-                    </div>
-                    <div className="product_title">
-                      Date: {cleanDateString(property.createdAt)}
-                    </div>
-                  </div>
-                </div>
+                <PropertyCard key={property.id} property={property} isGridView={isGridView} />
               ))
             ) : (
               <div className="no_results_message">
@@ -424,6 +391,7 @@ const PropertiesList = () => {
           </div>
         )}
       </div>
+      
     </section>
   );
 };

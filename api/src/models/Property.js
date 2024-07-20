@@ -62,6 +62,11 @@ const Property = (sequelize) => {
         type: DataTypes.FLOAT,
         allowNull: true,
       },
+      propertyStatus: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "standard",
+      },
       createdAt: {
         type: DataTypes.DATE,
         defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
@@ -69,7 +74,7 @@ const Property = (sequelize) => {
       updatedAt: {
         type: DataTypes.DATE,
         defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
-      }
+      },
     },
     {
       hooks: {

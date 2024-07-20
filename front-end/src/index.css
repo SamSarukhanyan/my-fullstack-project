@@ -11,14 +11,14 @@
 
 
 ::-webkit-scrollbar-track {
-  background: #8b8b8b; 
+  background: #dadada; 
 }
 
 
 ::-webkit-scrollbar-thumb {
   background-color: #b4b4b4; 
   border-radius: 10px; 
-  border: 1px solid #797979; 
+  border: 1px solid #c0c0c0; 
 }
 
 
@@ -80,11 +80,11 @@ nav ul li a:hover {
 .add-property-link {
   transition: 200ms;
   border: 1px solid #1d553b;
-  color: #a8d8c8;
+  color: #ffffff;
   border-radius: 10px;
   height: 45px;
   white-space: nowrap;
-  background-color: #1d553b;
+  background-color: #24774e;
 }
 .add-property-link:hover {
   background-color: #2A8589;

@@ -35,6 +35,11 @@ const currencyOptions = [
 
 const rentalPeriodOptions = [{ value: "в месяц", label: "в месяц" }];
 
+const statusOptions = [
+  { value: "standard", label: "Стандартный" },
+  { value: "top", label: "Топ" },
+];
+
 const rentalCategories = ["rent-house", "rent-apartment", "rent-commercial"];
 
 const CustomOption = (props) => (
@@ -62,6 +67,7 @@ const CustomSingleValue = (props) => (
 function AddProperty() {
   const { category } = useParams();
   const [formData, setFormData] = useState({
+    propertyStatus: "standard", 
     region: "",
     subregion: "",
     uniqueFields: {},
@@ -107,6 +113,14 @@ function AddProperty() {
       }
       return { ...prevData, [name]: value };
     });
+  };
+
+  const handleSelectChange = (selectedOption, actionMeta) => {
+    const { name } = actionMeta;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: selectedOption ? selectedOption.value : "",
+    }));
   };
 
   const handleUniqueFieldChange = (selectedOption, actionMeta) => {
@@ -212,6 +226,25 @@ function AddProperty() {
       <div className="ADD_ROOT">
         <form onSubmit={handleSubmit} className="new_Form">
           <h1>{data.categories[category]}</h1>
+          
+          <div className="form-group statusBlock">
+            <label>Статус:</label>
+            <Select
+                name="propertyStatus"
+                value={
+                  formData.propertyStatus
+                      ? statusOptions.find(option => option.value === formData.propertyStatus)
+                      : null
+                }
+                onChange={(selectedOption, actionMeta) =>
+                    handleSelectChange(selectedOption, actionMeta)
+                }
+                options={statusOptions}
+                styles={customStyles}
+                isSearchable={false}
+            />
+          </div>
+          
           <div id="map" className="mapContainer">
             <YMaps
                 query={{
@@ -222,10 +255,11 @@ function AddProperty() {
               <Map
                   defaultState={{
                     center: [40.1774, 44.5134],
-                    zoom: 7,
+                    zoom: 13,
                   }}
                   width="100%"
                   height="390px"
+                  cursor="pointer"
                   onClick={handleMapClick}
               >
                 {tempPosition && (
@@ -261,11 +295,8 @@ function AddProperty() {
                       ? { value: formData.region, label: formData.region }
                       : null
                 }
-                onChange={(selectedOption) =>
-                    setFormData({
-                      ...formData,
-                      region: selectedOption ? selectedOption.value : "",
-                    })
+                onChange={(selectedOption, actionMeta) =>
+                    handleSelectChange(selectedOption, actionMeta)
                 }
                 options={Object.keys(data.regions).map((region) => ({
                   value: region,
@@ -286,11 +317,8 @@ function AddProperty() {
                           ? { value: formData.subregion, label: formData.subregion }
                           : null
                     }
-                    onChange={(selectedOption) =>
-                        setFormData({
-                          ...formData,
-                          subregion: selectedOption ? selectedOption.value : "",
-                        })
+                    onChange={(selectedOption, actionMeta) =>
+                        handleSelectChange(selectedOption, actionMeta)
                     }
                     options={data.regions[formData.region].map((subregion) => ({
                       value: subregion,
@@ -320,10 +348,8 @@ function AddProperty() {
                                         }
                                         : null
                                   }
-                                  onChange={(selectedOption) =>
-                                      handleUniqueFieldChange(selectedOption, {
-                                        name: field.label,
-                                      })
+                                  onChange={(selectedOption, actionMeta) =>
+                                      handleUniqueFieldChange(selectedOption, actionMeta)
                                   }
                                   options={field.options.map((option) => ({
                                     value: option,
@@ -421,11 +447,8 @@ function AddProperty() {
                           )
                           : null
                     }
-                    onChange={(selectedOption) =>
-                        setFormData({
-                          ...formData,
-                          currency: selectedOption ? selectedOption.value : "",
-                        })
+                    onChange={(selectedOption, actionMeta) =>
+                        handleSelectChange(selectedOption, actionMeta)
                     }
                     options={currencyOptions}
                     components={{
@@ -461,11 +484,8 @@ function AddProperty() {
                           )
                           : null
                     }
-                    onChange={(selectedOption) =>
-                        setFormData({
-                          ...formData,
-                          currency: selectedOption ? selectedOption.value : "",
-                        })
+                    onChange={(selectedOption, actionMeta) =>
+                        handleSelectChange(selectedOption, actionMeta)
                     }
                     options={currencyOptions}
                     components={{
@@ -536,8 +556,6 @@ function AddProperty() {
                 onChange={handleChange}
             />
           </div>
-
-         
 
           <button type="submit">Добавить</button>
         </form>

@@ -1,5 +1,7 @@
 import db from "../../models/index.js";
 import { Op } from "sequelize";
+import { QueryTypes } from "sequelize";
+
 
 const Property = db.Property;
 
@@ -15,7 +17,8 @@ export const getProperties = async (req, res) => {
       priceRange,
       currency,
       searchFields,
-      sortBy = '',
+      sortBy = "",
+      propertyStatus, // Фильтр по статусу недвижимости
     } = req.query;
 
     const offset = (page - 1) * limit;
@@ -35,13 +38,13 @@ export const getProperties = async (req, res) => {
 
     if (region) {
       whereClause.region = {
-        [Op.like]: `%${region}%`
+        [Op.like]: `%${region}%`,
       };
     }
 
     if (subregion) {
       whereClause.subregion = {
-        [Op.like]: `%${subregion}%`
+        [Op.like]: `%${subregion}%`,
       };
     }
 
@@ -50,7 +53,10 @@ export const getProperties = async (req, res) => {
         const parsedPriceRange = JSON.parse(priceRange);
         if (parsedPriceRange.from && parsedPriceRange.to) {
           whereClause.price = {
-            [Op.between]: [Number(parsedPriceRange.from), Number(parsedPriceRange.to)],
+            [Op.between]: [
+              Number(parsedPriceRange.from),
+              Number(parsedPriceRange.to)
+            ],
           };
         } else if (parsedPriceRange.from) {
           whereClause.price = { [Op.gte]: Number(parsedPriceRange.from) };
@@ -66,6 +72,10 @@ export const getProperties = async (req, res) => {
       whereClause.currency = currency;
     }
 
+    if (propertyStatus) {
+      whereClause.propertyStatus = propertyStatus; // Фильтр по статусу недвижимости
+    }
+
     const uniqueFieldsWhere = {};
 
     if (searchFields && searchFields !== "null" && searchFields !== "{}") {
@@ -73,7 +83,11 @@ export const getProperties = async (req, res) => {
         const parsedSearchFields = JSON.parse(searchFields);
         for (const [key, value] of Object.entries(parsedSearchFields)) {
           if (value && value !== "null") {
-            if (typeof value === "object" && value.from !== undefined && value.to !== undefined) {
+            if (
+              typeof value === "object" &&
+              value.from !== undefined &&
+              value.to !== undefined
+            ) {
               uniqueFieldsWhere[`uniqueFields.${key}`] = {
                 [Op.between]: [Number(value.from), Number(value.to)],
               };
@@ -93,21 +107,23 @@ export const getProperties = async (req, res) => {
           }
         }
       } catch (error) {
-        return res.status(400).json({ message: "Invalid search fields format" });
+        return res
+          .status(400)
+          .json({ message: "Invalid search fields format" });
       }
     }
 
-    let order = [['createdAt', 'desc']]; // Default order
+    let order = [["createdAt", "desc"]]; // Default order
 
     if (sortBy) {
-      if (sortBy === 'price-asc') {
-        order = [['price', 'asc']];
-      } else if (sortBy === 'price-desc') {
-        order = [['price', 'desc']];
-      } else if (sortBy === 'createdAt-asc') {
-        order = [['createdAt', 'asc']];
-      } else if (sortBy === 'createdAt-desc') {
-        order = [['createdAt', 'desc']];
+      if (sortBy === "price-asc") {
+        order = [["price", "asc"]];
+      } else if (sortBy === "price-desc") {
+        order = [["price", "desc"]];
+      } else if (sortBy === "createdAt-asc") {
+        order = [["createdAt", "asc"]];
+      } else if (sortBy === "createdAt-desc") {
+        order = [["createdAt", "desc"]];
       }
     }
 
@@ -134,13 +150,7 @@ export const getProperties = async (req, res) => {
 export const getPropertiesByCategory = async (req, res) => {
   try {
     const { category } = req.params;
-    const {
-      search,
-      page = 1,
-      limit = 9,
-      sortBy = '',
-      ...filters
-    } = req.query;
+    const { search, page = 1, limit = 9, sortBy = "", ...filters } = req.query;
 
     const offset = (page - 1) * limit;
     const whereClause = { category };
@@ -206,7 +216,9 @@ export const getPropertiesByCategory = async (req, res) => {
         }
       } catch (error) {
         console.error("Invalid search fields format:", error);
-        return res.status(400).json({ message: "Invalid search fields format" });
+        return res
+          .status(400)
+          .json({ message: "Invalid search fields format" });
       }
     }
 
@@ -218,17 +230,17 @@ export const getPropertiesByCategory = async (req, res) => {
       ];
     }
 
-    let order = [['createdAt', 'desc']]; // Default order
+    let order = [["createdAt", "desc"]]; // Default order
 
     if (sortBy) {
-      if (sortBy === 'price-asc') {
-        order = [['price', 'asc']];
-      } else if (sortBy === 'price-desc') {
-        order = [['price', 'desc']];
-      } else if (sortBy === 'createdAt-asc') {
-        order = [['createdAt', 'asc']];
-      } else if (sortBy === 'createdAt-desc') {
-        order = [['createdAt', 'desc']];
+      if (sortBy === "price-asc") {
+        order = [["price", "asc"]];
+      } else if (sortBy === "price-desc") {
+        order = [["price", "desc"]];
+      } else if (sortBy === "createdAt-asc") {
+        order = [["createdAt", "asc"]];
+      } else if (sortBy === "createdAt-desc") {
+        order = [["createdAt", "desc"]];
       }
     }
 
@@ -252,8 +264,6 @@ export const getPropertiesByCategory = async (req, res) => {
   }
 };
 
-
-
 export const getPropertyDetails = async (req, res) => {
   try {
     const { id } = req.params;
@@ -267,3 +277,33 @@ export const getPropertyDetails = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+
+export const getTopProperties = async (req, res) => {
+  try {
+    const properties = await Property.findAll({
+      where: {
+        propertyStatus: 'top',
+      },
+      limit: 10, // Ограничиваем количество топовых объектов недвижимости
+      order: [["createdAt", "desc"]],
+    });
+
+    res.status(200).json({ properties });
+  } catch (error) {
+    console.error("Error fetching top properties:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+
+
+
+
+
+
+
+
+

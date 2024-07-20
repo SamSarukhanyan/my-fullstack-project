@@ -1,6 +1,7 @@
 export const customStyles = {
   control: (provided, state) => ({
     ...provided,
+    zIndex: "4000 !important",
     width: "100%",
     height: "auto",
     fontSize: '18px',
@@ -8,9 +9,9 @@ export const customStyles = {
     cursor: "pointer",
     borderColor: "#ced4da",
     borderRadius: "6px",
-    backgroundColor: '#C2DAD4',
+    backgroundColor: 'white',
     "&:hover": {
-      borderColor: "#80bdff",
+      borderColor: "#7D7D7D",
     },
     "&:focus": {
       borderColor: "#80bdff",
@@ -131,10 +132,10 @@ export const advancedStyles = {
     cursor: "pointer",
     borderColor: "#557c6467",
     borderRadius: "6px",
-    backgroundColor: '#C2DAD4',
+    backgroundColor: 'white',
     color: 'red',
     "&:hover": {
-      borderColor: "#80bdff",
+      borderColor: "#7D7D7D",
     },
     "&:focus": {
       borderColor: "#80bdff",

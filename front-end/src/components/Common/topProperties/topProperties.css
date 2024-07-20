@@ -1,0 +1,93 @@
+.top-properties {
+  /* border: 4px solid green; */
+  margin-left: 2px;
+  background-color: #f7f5f5;
+  padding: 20px 30px;
+  border-radius: 10px;
+  border: 1px solid rgb(218, 217, 217);
+  max-height: 1200px; /* Ограничение максимальной высоты */
+  overflow-y: auto; /* Добавление вертикальной прокрутки */
+  position: relative; /* Убедитесь, что блок имеет относительное позиционирование */
+}
+
+.top-properties h2 {
+  color: black;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.top-properties-list {
+  max-height: calc(100% - 60px); /* Убедитесь, что высота внутреннего списка корректна */
+  
+}
+
+/* Стилизация полосы прокрутки */
+.top-properties::-webkit-scrollbar {
+  width: 10px; /* Ширина полосы прокрутки */
+  
+}
+
+.top-properties::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Цвет трека */
+
+  border-radius: 14px;
+}
+
+.top-properties::-webkit-scrollbar-thumb {
+  background: #d3d3d3; /* Цвет ползунка */
+  border-radius: 10px;
+  border: 1px solid #bbbbbb;
+}
+
+.top-properties::-webkit-scrollbar-thumb:hover {
+  background: #aaaaaa; /* Цвет ползунка при наведении */
+}
+
+.top_product_card {
+  position: relative;
+  z-index: 1; /* Убедитесь, что z-index установлен корректно */
+  width: 250px !important;
+  height: 350px;
+  border-radius: 10px;
+  margin: 5px;
+  margin-top: 20px;
+  font-size: 18px;
+  transition: transform 100ms; /* Убедитесь, что трансформация применяется */
+  background-color: white;
+  cursor: pointer; /* Ensure cursor applies to entire card */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Гарантирует, что дочерние элементы не выходят за пределы карточки */
+}
+
+.top_product_card:hover > .top_bottom_content {
+  background-color: #dfdfdf83;
+  border-radius: 0px 0px 10px 10px;
+}
+
+.top_product_card:hover > .top_product_images {
+  transform: scale(1.01);
+  transition: 200ms;
+}
+
+.top_product_images {
+  width: 250px;
+  height: 200px;
+  position: relative;
+}
+
+.top_product_image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 7px;
+}
+
+.top_bottom_content {
+  padding: 10px;
+  flex-grow: 1; /* Расширяет нижнее содержимое, чтобы занимать оставшееся пространство */
+}
+
+.product_title {
+  margin: 5px 0;
+}

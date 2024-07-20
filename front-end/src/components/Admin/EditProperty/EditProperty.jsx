@@ -18,32 +18,38 @@ const currencyOptions = [
 
 const rentalCategories = ["rent-house", "rent-apartment", "rent-commercial"];
 
+const statusOptions = [
+  { value: "standard", label: "Стандартный" },
+  { value: "top", label: "Топ" },
+];
+
 const CustomOption = (props) => (
-    <components.Option {...props}>
-      <img
-          src={props.data.flag}
-          alt={props.data.label}
-          style={{ width: 25, height: 18, marginRight: 10 }}
-      />
-      {props.data.label}
-    </components.Option>
+  <components.Option {...props}>
+    <img
+      src={props.data.flag}
+      alt={props.data.label}
+      style={{ width: 25, height: 18, marginRight: 10 }}
+    />
+    {props.data.label}
+  </components.Option>
 );
 
 const CustomSingleValue = (props) => (
-    <components.SingleValue {...props}>
-      <img
-          src={props.data.flag}
-          alt={props.data.label}
-          style={{ width: 25, height: 18, marginRight: 10 }}
-      />
-      {props.data.label}
-    </components.SingleValue>
+  <components.SingleValue {...props}>
+    <img
+      src={props.data.flag}
+      alt={props.data.label}
+      style={{ width: 25, height: 18, marginRight: 10 }}
+    />
+    {props.data.label}
+  </components.SingleValue>
 );
 
 function EditProperty() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
+    status: "standard", // Добавленное поле "Статус"
     region: "",
     subregion: "",
     uniqueFields: {},
@@ -71,6 +77,7 @@ function EditProperty() {
       });
 
       const selectedCurrency = currencyOptions.find(option => option.value === data.currency) || { value: "AMD", label: "֏ (AMD)", flag: "/assets/flags/AMD.png" };
+      const selectedStatus = statusOptions.find(option => option.value === data.status) || { value: "standard", label: "Стандартный" };
 
       setFormData({
         ...data,
@@ -80,6 +87,7 @@ function EditProperty() {
           file: null,
         })),
         currency: selectedCurrency,
+        status: selectedStatus,
         rentalPeriod: data.rentalPeriod || "в месяц",
         category: data.category,
         lat: data.lat,
@@ -106,6 +114,13 @@ function EditProperty() {
       }
       return { ...prevData, [name]: value };
     });
+  };
+
+  const handleSelectChange = (selectedOption, { name }) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: selectedOption
+    }));
   };
 
   const handleUniqueFieldChange = (selectedOption, actionMeta) => {
@@ -169,7 +184,7 @@ function EditProperty() {
         // already handled above
       } else if (key === "uniqueFields") {
         dataToSend.append("uniqueFields", JSON.stringify(formData.uniqueFields));
-      } else if (key === "currency") {
+      } else if (key === "currency" || key === "status") {
         dataToSend.append(key, formData[key].value);
       } else if (key === "rentalPeriod" && rentalCategories.includes(formData.category)) {
         dataToSend.append(key, formData[key]);
@@ -213,309 +228,318 @@ function EditProperty() {
   };
  
   return (
-      <div className="ADD_ROOT">
-        <form onSubmit={handleSubmit} className="new_Form">
-          <h1>Edit Property</h1>
-          <div className="form-group regionBlock">
-            <label>Регион:</label>
+    <div className="ADD_ROOT">
+      <form onSubmit={handleSubmit} className="new_Form">
+        <h1>Edit Property</h1>
+
+        <div className="form-group statusBlock">
+          <label>Статус:</label>
+          <Select
+            name="status"
+            value={formData.status}
+            onChange={handleSelectChange}
+            options={statusOptions}
+            styles={customStyles}
+            isSearchable={false}
+          />
+        </div>
+
+        <div className="form-group regionBlock">
+          <label>Регион:</label>
+          <Select
+            className="region"
+            name="region"
+            placeholder=""
+            value={formData.region ? { value: formData.region, label: formData.region } : null}
+            onChange={(selectedOption) =>
+              setFormData({ ...formData, region: selectedOption ? selectedOption.value : "" })
+            }
+            options={Object.keys(data.regions).map((region) => ({
+              value: region,
+              label: region
+            }))}
+            styles={customStyles}
+            isSearchable={false}
+          />
+        </div>
+        {formData.region && (
+          <div className="form-group subregionBlock">
+            <label>Подрегион:</label>
             <Select
-                className="region"
-                name="region"
-                placeholder=""
-                value={formData.region ? { value: formData.region, label: formData.region } : null}
-                onChange={(selectedOption) =>
-                    setFormData({ ...formData, region: selectedOption ? selectedOption.value : "" })
-                }
-                options={Object.keys(data.regions).map((region) => ({
-                  value: region,
-                  label: region
-                }))}
-                styles={customStyles}
-                isSearchable={false}
+              className="region"
+              name="subregion"
+              value={formData.subregion ? { value: formData.subregion, label: formData.subregion } : null}
+              onChange={(selectedOption) =>
+                setFormData({ ...formData, subregion: selectedOption ? selectedOption.value : "" })
+              }
+              options={data.regions[formData.region]?.map((subregion) => ({
+                value: subregion,
+                label: subregion
+              }))}
+              styles={customStyles}
+              isSearchable={false}
             />
           </div>
-          {formData.region && (
-              <div className="form-group subregionBlock">
-                <label>Подрегион:</label>
-                <Select
-                    className="region"
-                    name="subregion"
-                    value={formData.subregion ? { value: formData.subregion, label: formData.subregion } : null}
-                    onChange={(selectedOption) =>
-                        setFormData({ ...formData, subregion: selectedOption ? selectedOption.value : "" })
+        )}
+
+        <div className="select-group">
+          {uniqueFields[formData.category]?.map((field, index) => (
+            field.type !== "checkbox" && (
+              <div className="form-group" key={index}>
+                <label>{field.label}:</label>
+                {field.type === "select" ? (
+                  <Select
+                    classNamePrefix={
+                      field.label === "Балкон" ? "balcon-select" :
+                      field.label === "Ремонт" ? "repair-select" :
+                      field.label === "Гараж" ? "garage-select" :
+                      field.label === "Состояние" ? "status-select" :
+                      field.label === "Вход" ? "entrance-select" :
+                      field.label === "Расположение от улицы" ? "location-select" :
+                      field.label === "Мебель" ? "furniture-select" :
+                      field.label === "Тип здания" ? "buildingType-select" :
+                      field.label === "Тип" ? "type-select" :
+                      field.label === "Этаж" ? "special-select" :
+                      field.label === "Высота потолков" ? "special-select" :
+                      field.label === "Новостройка" ? "special-select" :
+                      field.label === "Лифт" ? "special-select" :
+                      field.label === "Этажей в доме" ? "special-select" :
+                      field.label === "Количество комнат" ? "special-select" :
+                      field.label === "Количество санузлов" ? "special-select" :
+                      "default-select"
                     }
-                    options={data.regions[formData.region]?.map((subregion) => ({
-                      value: subregion,
-                      label: subregion
+                    placeholder=""
+                    name={field.label}
+                    value={formData.uniqueFields[field.label] ? { value: formData.uniqueFields[field.label], label: formData.uniqueFields[field.label] } : null}
+                    onChange={(selectedOption, actionMeta) => handleUniqueFieldChange(selectedOption, actionMeta)}
+                    options={field.options?.map((option) => ({
+                      value: option,
+                      label: option
                     }))}
                     styles={customStyles}
                     isSearchable={false}
-                />
+                  />
+                ) : (
+                  <>
+                    <input
+                      type="text"
+                      name={field.label}
+                      value={formData.uniqueFields[field.label] || ""}
+                      onChange={handleChange}
+                      className={getInputClass(field.label)}
+                    />
+                    {isAreaField(field.label) && <span style={{ marginLeft: "5px" }}> кв.м.</span>}
+                  </>
+                )}
               </div>
-          )}
+            )
+          ))}
+        </div>
 
-          <div className="select-group">
-            {uniqueFields[formData.category]?.map((field, index) => (
-                field.type !== "checkbox" && (
-                    <div className="form-group" key={index}>
-                      <label>{field.label}:</label>
-                      {field.type === "select" ? (
-                          <Select
-                              classNamePrefix={
-                                field.label === "Балкон" ? "balcon-select" :
-                                    field.label === "Ремонт" ? "repair-select" :
-                                        field.label === "Гараж" ? "garage-select" :
-                                            field.label === "Состояние" ? "status-select" :
-                                                field.label === "Вход" ? "entrance-select" :
-                                                    field.label === "Расположение от улицы" ? "location-select" :
-                                                        field.label === "Мебель" ? "furniture-select" :
-                                                            field.label === "Тип здания" ? "buildingType-select" :
-                                                                field.label === "Тип" ? "type-select" :
-                                                                    field.label === "Этаж" ? "special-select" :
-                                                                        field.label === "Высота потолков" ? "special-select" :
-                                                                            field.label === "Новостройка" ? "special-select" :
-                                                                                field.label === "Лифт" ? "special-select" :
-                                                                                    field.label === "Этажей в доме" ? "special-select" :
-                                                                                        field.label === "Количество комнат" ? "special-select" :
-                                                                                            field.label === "Количество санузлов" ? "special-select" :
-                                                                                                "default-select"
+        <div className="checkbox-group">
+          {uniqueFields[formData.category]?.map((field, index) => (
+            field.type === "checkbox" && (
+              <div className="form-group" key={index}>
+                <span><label>{field.label}:</label></span>
+                <div className="checkedBlock">
+                  {field.options?.map((option, i) => (
+                    <label className="checked" key={i} htmlFor={`checkbox-${field.label}-${i}`}>
+                      <input
+                        type="checkbox"
+                        id={`checkbox-${field.label}-${i}`}
+                        name={field.label}
+                        value={option}
+                        checked={formData.uniqueFields[field.label]?.includes(option) || false}
+                        onChange={(e) => {
+                          const { name, value, checked } = e.target;
+                          setFormData((prevData) => {
+                            let newValue = checked
+                              ? [...prevData.uniqueFields[name], value]
+                              : prevData.uniqueFields[name].filter((v) => v !== value);
+                            return {
+                              ...prevData,
+                              uniqueFields: {
+                                ...prevData.uniqueFields,
+                                [name]: newValue
                               }
-                              placeholder=""
-                              name={field.label}
-                              value={formData.uniqueFields[field.label] ? { value: formData.uniqueFields[field.label], label: formData.uniqueFields[field.label] } : null}
-                              onChange={(selectedOption) => handleUniqueFieldChange(selectedOption, { name: field.label })}
-                              options={field.options?.map((option) => ({
-                                value: option,
-                                label: option
-                              }))}
-                              styles={customStyles}
-                              isSearchable={false}
-                          />
-                      ) : (
-                          <>
-                            <input
-                                type="text"
-                                name={field.label}
-                                value={formData.uniqueFields[field.label] || ""}
-                                onChange={handleChange}
-                                className={getInputClass(field.label)}
-                            />
-                            {isAreaField(field.label) && <span style={{marginLeft:"5px"}}> кв.м.</span>}
-                          </>
-                      )}
-                    </div>
-                )
-            ))}
-          </div>
-
-          <div className="checkbox-group">
-            {uniqueFields[formData.category]?.map((field, index) => (
-                field.type === "checkbox" && (
-                    <div className="form-group" key={index}>
-                      <span><label>{field.label}:</label></span>
-                      <div className="checkedBlock">
-                        {field.options?.map((option, i) => (
-                            <label className="checked" key={i} htmlFor={`checkbox-${field.label}-${i}`}>
-                              <input
-                                  type="checkbox"
-                                  id={`checkbox-${field.label}-${i}`}
-                                  name={field.label}
-                                  value={option}
-                                  checked={formData.uniqueFields[field.label]?.includes(option) || false}
-                                  onChange={(e) => {
-                                    const { name, value, checked } = e.target;
-                                    setFormData((prevData) => {
-                                      let newValue = checked
-                                          ? [...prevData.uniqueFields[name], value]
-                                          : prevData.uniqueFields[name].filter((v) => v !== value);
-                                      return {
-                                        ...prevData,
-                                        uniqueFields: {
-                                          ...prevData.uniqueFields,
-                                          [name]: newValue
-                                        }
-                                      };
-                                    });
-                                  }}
-                              />
-                              {option}
-                            </label>
-                        ))}
-                      </div>
-                    </div>
-                )
-            ))}
-          </div>
-
-          {rentalCategories.includes(formData.category) ? (
-              <div className="price-currency-container form-group">
-                <label>Арендная плата:</label>
-                <input
-                    type="text"
-                    name="price"
-                    value={formData.price}
-                    onChange={handleChange}
-                />
-                <Select
-                    name="currency"
-                    value={formData.currency}
-                    onChange={(selectedOption) =>
-                        setFormData({ ...formData, currency: selectedOption })
-                    }
-                    options={currencyOptions}
-                    components={{ Option: CustomOption, SingleValue: CustomSingleValue }}
-                    className="currency-selector"
-                    styles={customStylesCurrency}
-                    isSearchable={false}
-                />
-                <Select
-                    name="rentalPeriod"
-                    value={{ value: formData.rentalPeriod, label: formData.rentalPeriod }}
-                    onChange={(selectedOption) =>
-                        setFormData({ ...formData, rentalPeriod: selectedOption.value })
-                    }
-                    options={[{ value: "в месяц", label: "в месяц" }]}
-                    styles={customStyles}
-                    isSearchable={false}
-                />
+                            };
+                          });
+                        }}
+                      />
+                      {option}
+                    </label>
+                  ))}
+                </div>
               </div>
-          ) : (
-              <div className="price-currency-container form-group">
-                <label>Цена:</label>
-                <input
-                    type="text"
-                    name="price"
-                    value={formData.price}
-                    onChange={handleChange}
-                />
-                <Select
-                    name="currency"
-                    value={formData.currency}
-                    onChange={(selectedOption) =>
-                        setFormData({ ...formData, currency: selectedOption })
-                    }
-                    options={currencyOptions}
-                    components={{ Option: CustomOption, SingleValue: CustomSingleValue }}
-                    className="currency-selector"
-                    styles={customStylesCurrency}
-                    isSearchable={false}
-                />
-              </div>
-          )}
+            )
+          ))}
+        </div>
 
-          <div className="form-group description">
-            <label>Описание:</label>
-            <textarea
-                name="info"
-                value={formData.info}
-                onChange={handleChange}
-            />
-          </div>
-
-          <div className="form-group imagesBlock">
-            <label>Фотографии:</label>
-            <label className="custom-file-upload">
-              Выбрать файлы
-              <input
-                  id="file-upload"
-                  type="file"
-                  name="photos"
-                  accept="image/*"
-                  multiple
-                  onChange={handleFileChange}
-              />
-            </label>
-            <div className="selected-images">
-              {formData.photos.map((photo, index) => (
-                  <div key={index} className="image-container">
-                    {photo.file ? (
-                        <img
-                            src={photo.url}
-                            alt={`selected ${index}`}
-                            className="thumbnail"
-                        />
-                    ) : (
-                        <img
-                            src={photo.url}
-                            alt={`selected ${index}`}
-                            className="thumbnail"
-                        />
-                    )}
-                    <button
-                        type="button"
-                        className="remove-image"
-                        onClick={() => handleRemovePhoto(index)}
-                    >
-                      &times;
-                    </button>
-                  </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label>Контактная информация:</label>
+        {rentalCategories.includes(formData.category) ? (
+          <div className="price-currency-container form-group">
+            <label>Арендная плата:</label>
             <input
-                type="text"
-                name="contactInfo"
-                value={formData.contactInfo}
-                onChange={handleChange}
+              type="text"
+              name="price"
+              value={formData.price}
+              onChange={handleChange}
+            />
+            <Select
+              name="currency"
+              value={formData.currency}
+              onChange={(selectedOption, actionMeta) => handleSelectChange(selectedOption, actionMeta)}
+              options={currencyOptions}
+              components={{ Option: CustomOption, SingleValue: CustomSingleValue }}
+              className="currency-selector"
+              styles={customStylesCurrency}
+              isSearchable={false}
+            />
+            <Select
+              name="rentalPeriod"
+              value={{ value: formData.rentalPeriod, label: formData.rentalPeriod }}
+              onChange={(selectedOption) =>
+                setFormData({ ...formData, rentalPeriod: selectedOption.value })
+              }
+              options={[{ value: "в месяц", label: "в месяц" }]}
+              styles={customStyles}
+              isSearchable={false}
             />
           </div>
-
-          <div className="form-group">
-            <label>ID Недвижимости:</label>
+        ) : (
+          <div className="price-currency-container form-group">
+            <label>Цена:</label>
             <input
-                type="text"
-                name="propertyId"
-                value={formData.propertyId}
-                onChange={handleChange}
+              type="text"
+              name="price"
+              value={formData.price}
+              onChange={handleChange}
+            />
+            <Select
+              name="currency"
+              value={formData.currency}
+              onChange={(selectedOption, actionMeta) => handleSelectChange(selectedOption, actionMeta)}
+              options={currencyOptions}
+              components={{ Option: CustomOption, SingleValue: CustomSingleValue }}
+              className="currency-selector"
+              styles={customStylesCurrency}
+              isSearchable={false}
             />
           </div>
+        )}
 
-          <div id="map" className="mapContainer">
-            <YMaps
-                query={{
-                  apikey: process.env.REACT_APP_YANDEX_MAPS_API_KEY,
-                  lang: "ru_RU",
-                }}
-            >
-              <Map
-                  defaultState={{
-                    center: [40.1774, 44.5134],
-                    zoom: 7,
-                  }}
-                  width="100%"
-                  height="400px"
-                  onClick={handleMapClick}
-              >
-                {tempPosition && (
-                    <Placemark
-                        geometry={[tempPosition.lat, tempPosition.lng]}
-                        options={{ iconColor: 'red' }}
-                    />
+        <div className="form-group description">
+          <label>Описание:</label>
+          <textarea
+            name="info"
+            value={formData.info}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-group imagesBlock">
+          <label>Фотографии:</label>
+          <label className="custom-file-upload">
+            Выбрать файлы
+            <input
+              id="file-upload"
+              type="file"
+              name="photos"
+              accept="image/*"
+              multiple
+              onChange={handleFileChange}
+            />
+          </label>
+          <div className="selected-images">
+            {formData.photos.map((photo, index) => (
+              <div key={index} className="image-container">
+                {photo.file ? (
+                  <img
+                    src={photo.url}
+                    alt={`selected ${index}`}
+                    className="thumbnail"
+                  />
+                ) : (
+                  <img
+                    src={photo.url}
+                    alt={`selected ${index}`}
+                    className="thumbnail"
+                  />
                 )}
-                {savedPosition && (
-                    <Placemark
-                        geometry={[savedPosition.lat, savedPosition.lng]}
-                    />
-                )}
-              </Map>
-            </YMaps>
-            {tempPosition && (
                 <button
-                    className="addLocation"
-                    type="button"
-                    onClick={handleSaveLocation}
+                  type="button"
+                  className="remove-image"
+                  onClick={() => handleRemovePhoto(index)}
                 >
-                  Save Location
+                  &times;
                 </button>
-            )}
+              </div>
+            ))}
           </div>
+        </div>
 
-          <button type="submit">Update</button>
-        </form>
-      </div>
+        <div className="form-group">
+          <label>Контактная информация:</label>
+          <input
+            type="text"
+            name="contactInfo"
+            value={formData.contactInfo}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>ID Недвижимости:</label>
+          <input
+            type="text"
+            name="propertyId"
+            value={formData.propertyId}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div id="map" className="mapContainer">
+          <YMaps
+            query={{
+              apikey: process.env.REACT_APP_YANДЕКС_MAPS_API_KEY,
+              lang: "ru_RU",
+            }}
+          >
+            <Map
+              defaultState={{
+                center: [40.1774, 44.5134],
+                zoom: 7,
+              }}
+              width="100%"
+              height="400px"
+              onClick={handleMapClick}
+            >
+              {tempPosition && (
+                <Placemark
+                  geometry={[tempPosition.lat, tempPosition.lng]}
+                  options={{ iconColor: 'red' }}
+                />
+              )}
+              {savedPosition && (
+                <Placemark
+                  geometry={[savedPosition.lat, savedPosition.lng]}
+                />
+              )}
+            </Map>
+          </YMaps>
+          {tempPosition && (
+            <button
+              className="addLocation"
+              type="button"
+              onClick={handleSaveLocation}
+            >
+              Save Location
+            </button>
+          )}
+        </div>
+
+        <button type="submit">Update</button>
+      </form>
+    </div>
   );
 }
 

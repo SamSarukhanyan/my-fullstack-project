@@ -14,6 +14,7 @@ import MapView from "./mapView/MapView.jsx";
 import "./categoryProperties.css";
 import "../propertyList/propertyList.css";
 import { sortStyles } from "../../customStyles.js";
+import PropertyCard from "../propertyCard/PropertyCard.jsx";
 
 const fetchPropertiesByCategory = async (
   category,
@@ -140,13 +141,6 @@ const CategoryProperties = () => {
     }
   }, [data]);
 
-  const formatImagePath = (imagePath) => {
-    return imagePath.replace(/\\/g, "/");
-  };
-
-  const cleanDateString = (dateString) => {
-    return dateString.replace("T", " ").replace(".000Z", "").replace(/-/g, "/");
-  };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -262,7 +256,8 @@ const CategoryProperties = () => {
               onFocus={handleFocus}
               disableDimming={disableDimming}
             />
-            <div className="sort_selector">
+           <div className="center">
+           <div className="sort_selector">
               <label htmlFor="sortBy">Sort by: </label>
               <Select
                 id="sortBy"
@@ -290,12 +285,15 @@ const CategoryProperties = () => {
                 menuPlacement="auto"
               />
             </div>
-            {showResultsMessage && (
+          <div className="">
+          {showResultsMessage && (
               <div className="results_message">
                 По вашему запросу найдено {data ? data.totalCount : 0}{" "}
                 результат(ов)
               </div>
             )}
+          </div>
+           </div>
             <div className="view_toggle">
               <FaTh
                 className={`view_icon ${isGridView ? "active" : ""}`}
@@ -307,7 +305,9 @@ const CategoryProperties = () => {
               />
             </div>
             {isLoading || showSkeletons ? (
-              <div className="products_container">
+              <div  className={`products_container ${
+                isGridView ? "grid_view" : "list_view"
+              }`}>
                 {renderSkeletons(skeletonCount)}
               </div>
             ) : isError ? (
@@ -320,45 +320,7 @@ const CategoryProperties = () => {
               >
                 {data && data.properties.length > 0 ? (
                   data.properties.map((property) => (
-                    <div
-                      key={property.id}
-                      className="product_card"
-                      onClick={() => navigate(`/properties/${property.id}`)}
-                    >
-                      <div className="product_images">
-                        {property.photos && property.photos.length > 0 ? (
-                          <img
-                            src={`${PUBLIC_URL}/${formatImagePath(
-                              property.photos[0]
-                            )}`}
-                            alt="Property"
-                            className="product_image"
-                          />
-                        ) : (
-                          <div>No images available</div>
-                        )}
-                      </div>
-                      <div className="bottom_content">
-                        <div className="product_title">
-                          {property.price} {property.currency}{" "}
-                        </div>
-                        <div className="product_title">
-                          Категория: {property.category}
-                        </div>
-                        <div className="product_title">
-                          id: {property.propertyId}
-                        </div>
-                        <div className="product_title">
-                          Регион: {property.region}
-                        </div>
-                        <div className="product_title">
-                          Подрегион: {property.subregion}
-                        </div>
-                        <div className="product_title">
-                          Date: {cleanDateString(property.createdAt)}
-                        </div>
-                      </div>
-                    </div>
+                    <PropertyCard key={property.id} property={property} />
                   ))
                 ) : (
                   <h2>{"По вашему запросу ничего не найдено"} </h2>

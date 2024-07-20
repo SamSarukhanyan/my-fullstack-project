@@ -19,12 +19,12 @@
   height: 100%;
   margin-right: 10px;
   margin-bottom: 100px;
-  background: #b9d1bdad; 
+  background: white; 
   backdrop-filter: blur(9px); 
   -webkit-backdrop-filter: blur(10px); 
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
   border-radius: 10px;
-
+  z-index: 3000 !important;
   overflow: visible;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
@@ -38,7 +38,7 @@
   z-index: 55001; 
   height: 90vh; 
   overflow-y: auto; 
-  background: #b9d1bdad; 
+  background: #ffffffad; 
   backdrop-filter: blur(9px); 
   -webkit-backdrop-filter: blur(10px); 
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
@@ -79,7 +79,7 @@
  
   height: auto;
   z-index: 1 !important;
-  background-color: #88a292;
+  background-color: #ffffff;
   border-radius: 10px;
 }
 
@@ -117,12 +117,12 @@
 .checkbox-select {
   width: 100%;
   position: relative;
-  border: 1px solid #557c6467;
+  border: 1px solid #bdbdbd;
   border-radius: 6px;
   margin-top: 1px;
   padding: 10px;
   cursor: pointer;
-  background-color: #c2dad4;
+  background-color: #ffffff;
   user-select: none; 
 }
 
@@ -182,12 +182,12 @@
 }
 
 .checkbox_children:hover {
-  background-color: #2a878b;
+  background-color: #999999;
   color: white;
 }
 
 .checkbox_children:hover .checkbox-text {
-  background-color: #2a878b;
+  background-color: #6d6d6d;
   color: white;
 }
 
@@ -294,7 +294,7 @@
   font-size: 14px;
   border-radius: 6px;
   margin-left: 2px;
-  background-color: #c2dad4;
+  background-color: #ffffff;
   border: 1px solid #557c6467;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
@@ -302,11 +302,11 @@
 
 .range-inputs input {
   padding: 2px !important;
-  font-size: 13px !important;
+  font-size: 16px !important;
   width: 100%;
   height: 35px;
   border-radius: 5px;
-  background-color: #c2dad4;
+  background-color: #ffffff;
   border: 1px solid #557c6467;
   transition: 100ms;
 }
@@ -334,9 +334,9 @@
   font-size: 18px;
   margin-top: 3px;
   padding: 10px;
-  border: 1px solid #42634f52;
+  border: 1px solid #00000052;
   border-radius: 4px;
-  background: #c2dad4;
+  background: #f0f0f0;
   cursor: pointer;
   text-decoration: none;
   color: black;
@@ -346,8 +346,8 @@
 
 .category-links .category-link.active,
 .category-links-bottom .category-link.active {
-  background: #2a878b;
-  color: white;
+  background: #979797;
+  color: rgb(255, 255, 255);
 }
 
 .category-links .category-link:hover,
@@ -386,8 +386,9 @@
   margin-bottom: 3px;
   background-color: #24755d;
   color: white;
-  font-size: 15px;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 17px;
+  letter-spacing: 1px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   cursor: pointer;
   transition: 100ms;
 }

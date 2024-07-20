@@ -74,7 +74,7 @@ const AdminProperties = () => {
             <Map
               defaultState={{
                 center: [40.1774, 44.5134],
-                zoom: 7,
+                zoom: 12.5,
               }}
               width="100%"
               height="100%"
@@ -126,8 +126,13 @@ const AdminProperties = () => {
                     <div>No images available</div>
                   )}
                 </div>
+                <div className="top_product_price">
+                  {property.price} {property.currency}{" "}
+                </div>
                 <div className="product_title">{property.category}</div>
+                <div className="product_address">{property.region}</div>
                 <div className="product_address">{property.subregion}</div>
+
                 <button onClick={() => handleViewDetails(property.id)}>
                   View
                 </button>

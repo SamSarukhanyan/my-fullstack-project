@@ -59,14 +59,15 @@ const SearchComponent = ({ searchTerm, setSearchTerm, onSearch, onClear, onFocus
         onKeyPress={handleKeyPress}
         placeholder="Search by ID, region, or subregion"
       />
-      <button onClick={handleSearch}>
-        <FaSearch />
-      </button>
-      {showClearButton && (
-        <button onClick={handleClear}>
-          <FaTimes />
+       {showClearButton && (
+        <button className="clear" onClick={handleClear}>
+          <FaTimes/>
         </button>
       )}
+      <button onClick={handleSearch}>
+        <FaSearch  />
+      </button>
+     
     </div>
   );
 };

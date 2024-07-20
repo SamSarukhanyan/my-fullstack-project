@@ -6,6 +6,7 @@ import moment from 'moment-timezone';
 export const addProperty = async (req, res) => {
   try {
     const {
+      propertyStatus, 
       region,
       subregion,
       uniqueFields,
@@ -33,6 +34,7 @@ export const addProperty = async (req, res) => {
 
     const propertyData = {
       category,
+      propertyStatus, 
       propertyId,
       region,
       subregion,
@@ -90,7 +92,8 @@ export const updateProperty = async (req, res) => {
       rentalPeriod,
       oldPhotos,
       lat,
-      lng
+      lng,
+      propertyStatus // Добавленное поле "Статус"
     } = req.body;
 
     const newPhotos = req.files.map(file => file.path);
@@ -121,6 +124,7 @@ export const updateProperty = async (req, res) => {
       photos: [...JSON.parse(oldPhotos), ...newPhotos],
       lat: coordinates.lat,
       lng: coordinates.lng,
+      propertyStatus // Добавленное поле "Статус"
     };
 
     if (rentalCategories.includes(property.category)) {
@@ -129,7 +133,6 @@ export const updateProperty = async (req, res) => {
 
     await property.update(updateData);
 
- 
     const oldPhotosArray = JSON.parse(oldPhotos);
     oldPhotosArray.forEach(photo => {
       if (!updateData.photos.includes(photo)) {
@@ -147,6 +150,7 @@ export const updateProperty = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 export const deleteProperty = async (req, res) => {
   try {

@@ -1,4 +1,5 @@
 .container {
+ padding-top: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -6,6 +7,7 @@
 }
 
 .container .clock {
+  border: 1px solid red;
   display: flex;
   height: 150px;
   width: 150px;
@@ -13,7 +15,7 @@
   align-items: center;
   justify-content: center;
   border: 1px solid rgba(33, 37, 32, 0.281);
-  background: #b9d1bdad;
+  background: #ffffff;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.226);
   position: relative;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
@@ -58,7 +60,7 @@
 .indicator .hand {
   position: absolute;
   width: 2px;
-  background: rgb(213, 241, 230);
+  background: rgb(74, 180, 110);
   bottom: 50%;
   transform-origin: bottom;
   z-index: 100;
@@ -73,7 +75,7 @@
 .hand.minute {
   width: 3px;
   height: 53px;
-  background: rgb(84, 100, 79);
+  background: rgb(160, 160, 160);
   border-radius: 20px;
 }
 
@@ -86,7 +88,9 @@
 
 .date {
   font-size: 16px;
-  color: rgb(255, 255, 255);
-  margin-top: 10px;
-  font-family: 'Courier New', Courier, monospace;
+  color: rgb(51, 51, 51);
+  margin-top: 20px;
+  font-size: 20px;
+  letter-spacing: 1px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
