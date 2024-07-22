@@ -1,6 +1,6 @@
 import db from "../../models/index.js";
 import { Op } from "sequelize";
-import { QueryTypes } from "sequelize";
+import moment from "moment-timezone";
 
 
 const Property = db.Property;
@@ -264,19 +264,29 @@ export const getPropertiesByCategory = async (req, res) => {
   }
 };
 
+
+
 export const getPropertyDetails = async (req, res) => {
   try {
     const { id } = req.params;
-    const property = await Property.findByPk(id);
+    const property = await db.Property.findByPk(id);
     if (!property) {
       return res.status(404).json({ error: "Property not found" });
     }
-    console.log(property.toJSON());
-    res.status(200).json(property);
+
+    // Преобразование временных данных в нужную временную зону
+    const propertyData = property.toJSON();
+    propertyData.createdAt = moment(propertyData.createdAt).tz('Asia/Yerevan').format('YYYY-MM-DD HH:mm:ss');
+    propertyData.updatedAt = moment(propertyData.updatedAt).tz('Asia/Yerevan').format('YYYY-MM-DD HH:mm:ss');
+
+    console.log(propertyData);
+    res.status(200).json(propertyData);
   } catch (error) {
+    console.error('Error fetching property details:', error);
     res.status(500).json({ error: error.message });
   }
 };
+
 
 
 

@@ -3,18 +3,16 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useQuery } from "react-query";
 import axios from "axios";
 import { useFilterContext } from "../../../context/FilterContext.js";
-import { useDimmingContext } from "../../../context/DimmingContext.js";
+import { useSearchContext } from "../../../context/SearchContext";
 import { PUBLIC_URL } from "../../../config/config.js";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
-import { FaTh, FaThList } from "react-icons/fa";
-import SearchComponent from "../search/SearchComponent.jsx";
+import SkeletonLoader from "../SkeletonLoader/SkeletonLoader.jsx";
 import Select from "react-select";
 import MapView from "./mapView/MapView.jsx";
 import "./categoryProperties.css";
 import "../propertyList/propertyList.css";
 import { sortStyles } from "../../customStyles.js";
 import PropertyCard from "../propertyCard/PropertyCard.jsx";
+import ViewToggle from "../viewToggle/ViewToggle.jsx";
 
 const fetchPropertiesByCategory = async (
   category,
@@ -51,11 +49,9 @@ const CategoryProperties = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { filters, setFilters } = useFilterContext();
-  const { isDimmed, enableDimming, disableDimming } = useDimmingContext();
+  const { searchTerm } = useSearchContext();
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [skeletonCount, setSkeletonCount] = useState(itemsPerPage);
   const [showSkeletons, setShowSkeletons] = useState(true);
   const [isGridView, setIsGridView] = useState(true);
   const [isFiltersApplied, setIsFiltersApplied] = useState(false);
@@ -89,17 +85,20 @@ const CategoryProperties = () => {
       params.set("search", searchTerm);
     }
 
-    Object.keys(filters).forEach((key) => {
+    const updatedFilters = { ...filters };
+    delete updatedFilters.category; // Remove the category from filters
+
+    Object.keys(updatedFilters).forEach((key) => {
       if (
-        filters[key] &&
-        (typeof filters[key] === "string"
-          ? filters[key]
-          : Object.keys(filters[key]).length > 0)
+        updatedFilters[key] &&
+        (typeof updatedFilters[key] === "string"
+          ? updatedFilters[key]
+          : Object.keys(updatedFilters[key]).length > 0)
       ) {
-        if (typeof filters[key] === "object") {
-          params.set(key, JSON.stringify(filters[key]));
+        if (typeof updatedFilters[key] === "object") {
+          params.set(key, JSON.stringify(updatedFilters[key]));
         } else {
-          params.set(key, filters[key]);
+          params.set(key, updatedFilters[key]);
         }
       }
     });
@@ -110,7 +109,6 @@ const CategoryProperties = () => {
     }
 
     navigate(`${location.pathname}?${params.toString()}`, { replace: true });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, searchTerm, navigate, location.pathname, sortBy, currentPage]);
 
   useEffect(() => {
@@ -131,9 +129,7 @@ const CategoryProperties = () => {
   useEffect(() => {
     if (data) {
       setShowSkeletons(true);
-      setSkeletonCount(itemsPerPage);
       const timeoutId = setTimeout(() => {
-        setSkeletonCount(data.totalCount);
         setShowSkeletons(false);
       }, 200);
 
@@ -141,82 +137,19 @@ const CategoryProperties = () => {
     }
   }, [data]);
 
-
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const handleSearch = (term) => {
-    setSearchTerm(term);
-    refetch();
-    setCurrentPage(1);
-    disableDimming();
-    setIsFiltersApplied(true);
-  };
-
-  const handleClearSearch = () => {
-    setSearchTerm("");
-    refetch();
-    disableDimming();
-    setCurrentPage(1);
-    setIsFiltersApplied(true);
-  };
-
-  const handleFocus = () => {
-    enableDimming();
+    window.scrollTo({ top: 300, behavior: "smooth" });
   };
 
   const handleSortChange = (selectedOption) => {
-    setSortBy(selectedOption ? selectedOption.value : '');
+    setSortBy(selectedOption ? selectedOption.value : "");
     refetch();
     setCurrentPage(1);
     setIsFiltersApplied(true);
   };
 
   const totalPages = data ? Math.ceil(data.totalCount / itemsPerPage) : 1;
-
-  const renderSkeletons = (count) => {
-    return Array(count)
-      .fill()
-      .map((_, index) => (
-        <div key={index} className="product_card_sceleton">
-          <div className="product_images">
-            <Skeleton
-              className="skeleton"
-              height={200}
-              baseColor="#738B7D"
-              highlightColor="#829D8D"
-            />
-          </div>
-          <div>
-            <Skeleton
-              className="skeleton"
-              width="80%"
-              baseColor="#738B7D"
-              highlightColor="#829D8D"
-            />
-          </div>
-          <div>
-            <Skeleton
-              className="skeleton"
-              width="40%"
-              baseColor="#738B7D"
-              highlightColor="#829D8D"
-            />
-          </div>
-          <div>
-            <Skeleton
-              className="skeleton"
-              width="60px"
-              height="35px"
-              baseColor="#738B7D"
-              highlightColor="#829D8D"
-            />
-          </div>
-        </div>
-      ));
-  };
 
   const showResultsMessage =
     searchTerm !== "" ||
@@ -240,75 +173,61 @@ const CategoryProperties = () => {
           >
             <span>View in Map</span>
           </div>
-          <div className={`products_block ${isDimmed ? "dimmed" : ""}`}>
-            <h2>{category} - аnnouncement</h2>
+          <div className={`products_block `}>
+            <h2>{category} - category</h2>
             <div className="category_count">
               <span>Search results - </span>
               <p>
                 {category}: {data ? data.totalCount : 0}
               </p>
             </div>
-            <SearchComponent
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
-              onSearch={handleSearch}
-              onClear={handleClearSearch}
-              onFocus={handleFocus}
-              disableDimming={disableDimming}
-            />
-           <div className="center">
-           <div className="sort_selector">
-              <label htmlFor="sortBy">Sort by: </label>
-              <Select
-                id="sortBy"
-                value={
-                  sortBy
-                    ? {
-                        value: sortBy,
-                        label: sortBy
-                          .replace("-", " ")
-                          .replace("createdAt", "date added")
-                          .replace("asc", "ascending")
-                          .replace("desc", "descending"),
-                      }
-                    : null
-                }
-                onChange={handleSortChange}
-                options={[
-                  { value: "price-asc", label: "Price ascending" },
-                  { value: "price-desc", label: "Price descending" },
-                  { value: "createdAt-asc", label: "Date added ascending" },
-                  { value: "createdAt-desc", label: "Date added descending" },
-                ]}
-                styles={sortStyles}
-                isClearable={true}
-                menuPlacement="auto"
-              />
-            </div>
-          <div className="">
-          {showResultsMessage && (
-              <div className="results_message">
-                По вашему запросу найдено {data ? data.totalCount : 0}{" "}
-                результат(ов)
+            <div className="center">
+              <div className="sort_selector">
+                <label htmlFor="sortBy">Sort by: </label>
+                <Select
+                  id="sortBy"
+                  value={
+                    sortBy
+                      ? {
+                          value: sortBy,
+                          label: sortBy
+                            .replace("-", " ")
+                            .replace("createdAt", "date added")
+                            .replace("asc", "ascending")
+                            .replace("desc", "descending"),
+                        }
+                      : null
+                  }
+                  onChange={handleSortChange}
+                  options={[
+                    { value: "price-asc", label: "Price ascending" },
+                    { value: "price-desc", label: "Price descending" },
+                    { value: "createdAt-asc", label: "Date added ascending" },
+                    { value: "createdAt-desc", label: "Date added descending" },
+                  ]}
+                  styles={sortStyles}
+                  isClearable={true}
+                  menuPlacement="auto"
+                />
               </div>
-            )}
-          </div>
-           </div>
-            <div className="view_toggle">
-              <FaTh
-                className={`view_icon ${isGridView ? "active" : ""}`}
-                onClick={() => setIsGridView(true)}
-              />
-              <FaThList
-                className={`view_icon ${!isGridView ? "active" : ""}`}
-                onClick={() => setIsGridView(false)}
-              />
+              <div>
+                {showResultsMessage && (
+                  <div className="results_message">
+                    По вашему запросу найдено {data ? data.totalCount : 0}{" "}
+                    результат(ов)
+                  </div>
+                )}
+              </div>
+              <ViewToggle isGridView={isGridView} setIsGridView={setIsGridView} />
             </div>
+
             {isLoading || showSkeletons ? (
-              <div  className={`products_container ${
-                isGridView ? "grid_view" : "list_view"
-              }`}>
-                {renderSkeletons(skeletonCount)}
+              <div
+                className={`products_container ${
+                  isGridView ? "grid_view" : "list_view"
+                }`}
+              >
+                <SkeletonLoader count={itemsPerPage} isGridView={isGridView} />
               </div>
             ) : isError ? (
               <div className="error_message">{error}</div>

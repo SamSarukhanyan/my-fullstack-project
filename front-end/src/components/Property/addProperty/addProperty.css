@@ -25,3 +25,8 @@
 .addLocation:hover{
    background-color:rgb(24, 114, 76) ;
 }
+
+.statusBlock{
+   display: flex;
+   align-items: center;
+}

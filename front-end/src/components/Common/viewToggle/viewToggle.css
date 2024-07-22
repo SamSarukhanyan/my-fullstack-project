@@ -1,0 +1,94 @@
+.view_toggle {
+   padding-right: 10px;
+   display: flex;
+   justify-content: flex-end;
+   position: relative;
+   transition: 100ms !important;
+   border: 1px solid black;
+   position: absolute;
+   right: 10px;
+ }
+ 
+ .view_toggle .view_icon {
+   cursor: pointer;
+   margin-left: 10px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   border: 2px solid transparent;
+   border-radius: 7px;
+   transition: background-color 0.3s, border-color 0.3s;
+   position: relative;
+   background-color: #ffffff;
+   transition: 100ms !important;
+ }
+ 
+ .view_toggle .view_icon.active {
+   background-color: white;
+ }
+ 
+
+ 
+ .view_toggle .view_icon .children {
+   transition: background-color 0.3s, border-color 0.3s;
+   border: 1px solid rgb(177, 175, 175);
+ }
+ 
+ .view_toggle .view_icon.active .children {
+   background-color: #2A878B;
+   border: 1px solid #558081;
+   transition: 50ms !important;
+ }
+ 
+ .view_toggle .view_icon:not(.active):hover .children {
+   background-color: #b9b9b9 !important;
+ }
+ 
+ .view_toggle .view_icon[data-title]::after {
+   content: attr(data-title);
+   position: absolute;
+   bottom: 125%;
+   border: none;
+   left: 50%;
+   transform: translateX(-50%);
+   background-color: #296979;
+   color: #fff;
+   padding: 5px;
+   border-radius: 4px;
+   white-space: nowrap;
+   opacity: 0;
+   visibility: hidden;
+   transition: opacity 0s;
+   pointer-events: none;
+   z-index: 10;
+   transition: 100ms !important;
+ }
+ 
+ .view_toggle .view_icon:hover[data-title]::after {
+   opacity: 1;
+   visibility: visible;
+ }
+ 
+ /* Arrow for the tooltip */
+ .view_toggle .view_icon[data-title]::before {
+   content: "";
+   position: absolute;
+   bottom: 17px;
+   left: 50%;
+   transform: translateX(-50%);
+   border-width: 5px;
+   border-style: solid;
+   border-color: #296979 transparent transparent transparent;
+   opacity: 0;
+   visibility: hidden;
+   transition: opacity 0s;
+   pointer-events: none;
+   z-index: 10;
+ }
+ 
+ .view_toggle .view_icon:hover[data-title]::before {
+   opacity: 1;
+   visibility: visible;
+ }
+ 

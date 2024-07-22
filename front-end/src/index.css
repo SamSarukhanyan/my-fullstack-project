@@ -1,46 +1,51 @@
 /* index.css */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
 
-
-
+.websocket {
+  width: 100%;
+  background-color: #ECECEC;
+  color: rgb(168, 168, 168);
+  margin-top: 70px;
+  font-size: 13px;
+  padding-right: 10px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  border: 1px solid red;
+}
 
 ::-webkit-scrollbar {
-  width: 15px; 
-  height: 15px; 
+  width: 15px;
+  height: 15px;
 }
-
 
 ::-webkit-scrollbar-track {
-  background: #dadada; 
+  background: #dadada;
 }
-
 
 ::-webkit-scrollbar-thumb {
-  background-color: #b4b4b4; 
-  border-radius: 10px; 
-  border: 1px solid #c0c0c0; 
+  background-color: #b4b4b4;
+  border-radius: 10px;
+  border: 1px solid #c0c0c0;
 }
-
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #777; 
+  background-color: #777;
   cursor: pointer;
 }
-
 
 :root {
   --primary: #bc4123;
   --secondary: #003a2a;
 }
 body {
-  font-family: 'Nunito', sans-serif;
-  
+  font-family: "Nunito", sans-serif;
 }
 * {
   margin: 0;
   padding: 0px;
   box-sizing: border-box;
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
 }
 p {
   margin: 20px 0;
@@ -53,11 +58,10 @@ nav ul {
 nav ul li {
   padding: 0px 5px;
   text-decoration: none;
-  height: 50px;
+  height: 50px !important;
   display: flex;
   align-items: center;
   cursor: pointer;
-  
 }
 
 nav ul li a {
@@ -68,7 +72,7 @@ nav ul li a {
   text-decoration: none;
   color: black;
   transition: 150ms;
-  height: 60px;
+  height: 50px !important;
   border-radius: 7px;
   white-space: nowrap;
 }
@@ -78,24 +82,20 @@ nav ul li a:hover {
   background-color: rgba(236, 236, 236, 0.568);
 }
 
-
 .add-property-link {
-  transition: 200ms;
+  transition: 100ms;
   border: 1px solid #1d553b;
   color: #ffffff;
   border-radius: 10px;
   font-size: 16px;
-  height: 45px;
+  height: 40px !important;
   white-space: nowrap;
   background-color: #24774e;
 }
 .add-property-link:hover {
-  background-color: #2A8589;
-  border: 1px solid white;
-  transition: 200ms;
-  color: white;
+  color: #24774e;
+  background-color: #ffffff;
 }
-
 
 form {
   margin-top: 30px;
@@ -118,5 +118,3 @@ form textarea {
 form label span {
   margin-bottom: 10px;
 }
-
-

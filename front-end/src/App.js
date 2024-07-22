@@ -1,3 +1,4 @@
+// src/App.js
 import { Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Header from "./components/Common/header/Header";
@@ -13,9 +14,11 @@ import { AuthProvider } from "./context/AuthContext";
 import { FilterProvider } from "./context/FilterContext";
 import { PropertyProvider } from "./context/PropertyContext";
 import { DimmingProvider } from "./context/DimmingContext";
+import { SearchProvider } from "./context/SearchContext"; // Import SearchProvider
 import HomeLayout from "./components/Common/homeLayout/HomeLayout";
 import React, { useRef } from "react";
 import CategoryProperties from "./components/Common/categoryProperties/CategoryProperties.jsx";
+import WebSocketClient from './WebSocketClient';
 
 const queryClient = new QueryClient();
 
@@ -28,20 +31,23 @@ function App() {
         <FilterProvider>
           <PropertyProvider>
             <DimmingProvider>
-              <Header />
-              <Routes>
-                <Route path="/login" element={<AdminLogin />} />
-                <Route path="/" element={<HomeLayout filterRef={filterRef} />}>
-                  <Route index element={<PropertiesList />} />
-                  <Route path="category/:category" element={<CategoryProperties />} /> 
-                </Route>
-                <Route path="properties/:id" element={<PropertyDetails />} />
-                <Route path="/admin/properties" element={<AdminProperties />} />
-                <Route path="/admin/add-property" element={<SelectCategory />} />
-                <Route path="/admin/add-property/:category" element={<AddProperty />} />
-                <Route path="/admin/edit-property/:id" element={<EditProperty />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
+              <SearchProvider>
+                <Header />
+                <WebSocketClient />
+                <Routes>
+                  <Route path="/login" element={<AdminLogin />} />
+                  <Route path="/" element={<HomeLayout filterRef={filterRef} />}>
+                    <Route index element={<PropertiesList />} />
+                    <Route path="category/:category" element={<CategoryProperties />} /> 
+                  </Route>
+                  <Route path="properties/:id" element={<PropertyDetails />} />
+                  <Route path="/admin/properties" element={<AdminProperties />} />
+                  <Route path="/admin/add-property" element={<SelectCategory />} />
+                  <Route path="/admin/add-property/:category" element={<AddProperty />} />
+                  <Route path="/admin/edit-property/:id" element={<EditProperty />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </SearchProvider>
             </DimmingProvider>
           </PropertyProvider>
         </FilterProvider>

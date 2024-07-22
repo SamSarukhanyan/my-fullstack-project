@@ -5,8 +5,8 @@
    display: flex;
    flex-direction: column;
    align-items: start;
-   margin: 120px auto;
-   background-color: rgb(224, 224, 224);
+   margin:  auto;
+   background-color: #ECECEC;
  }
  .top_content {
    width: 800px;

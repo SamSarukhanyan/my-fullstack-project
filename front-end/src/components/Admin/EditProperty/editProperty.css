@@ -30,12 +30,12 @@
  
  .form-group label {
    margin-right: 10px;
-   font-size: 18px;
+   font-size: 16px;
  }
  
 .regionBlock label {
    margin-top: 8px;
-   font-size: 19px;
+   font-size: 16px;
    font-weight: normal;
  }
 
@@ -52,7 +52,7 @@
  
  .form-group input[type="text"] {
    padding: 6px 8px;
-   font-size: 17px;
+   font-size: 16px;
    transition: 200ms;
    border-radius: 5px;
    border: 1px solid rgb(190, 190, 190);
@@ -74,7 +74,7 @@
  .checkbox-group .form-group label {
    margin-bottom: 10px;
    font-weight: bold;
-   font-size: 18px;
+   font-size: 16px;
    padding: 15px 2px 5px 0px;
    margin-top: 2px;
  }
@@ -86,7 +86,7 @@
    display: flex;
    align-items: center;
    cursor: pointer;
-   font-size: 19px;
+   font-size: 16px;
    letter-spacing: 0.5px;
    font-weight: normal;
  }
@@ -111,7 +111,7 @@
    width: 140px;
    padding: 10px 20px;
    height: 43px;
-   font-size: 17px;
+   font-size: 16px;
    background-color: #1e7267;
    color: #fff;
    border: none;
@@ -132,7 +132,7 @@
    height: 100px;
    width: 500px;
    margin-left: 5px;
-   font-size: 18px;
+   font-size: 16px;
  }
  .imagesBlock {
    margin-bottom: 25px;
@@ -156,7 +156,7 @@ input[type="file"] {
    margin-left: 5px;
    border: 1px solid #ccc;
    display: inline-block;
-   padding: 6px 10px;
+   padding: 7px 5px 10px 5px !important;
    cursor: pointer;
    background-color: #1e7267;
    color: #fff;

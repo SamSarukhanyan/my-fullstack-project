@@ -1,39 +1,57 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { FaSearch, FaTimes } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
+import { useSearchContext } from "../../../context/SearchContext";
+import { useDimmingContext } from "../../../context/DimmingContext";
+import { useNavigate, useLocation } from "react-router-dom";
 import './searchComponent.css';
 
-const SearchComponent = ({ searchTerm, setSearchTerm, onSearch, onClear, onFocus, disableDimming }) => {
+const SearchComponent = () => {
+  const { searchTerm, handleSearch, handleClearSearch } = useSearchContext();
+  const { disableDimming, enableDimming } = useDimmingContext();
   const [inputValue, setInputValue] = useState(searchTerm);
   const [showClearButton, setShowClearButton] = useState(false);
   const inputRef = useRef(null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    if (searchTerm) {
-      setShowClearButton(true);
-    } else {
-      setShowClearButton(false);
-    }
-  }, [searchTerm]);
+    setShowClearButton(inputValue.length > 0);
+  }, [inputValue]);
 
-  const handleSearch = () => {
-    setSearchTerm(inputValue);
-    onSearch(inputValue);
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const query = params.get("search") || "";
+    setInputValue(query);
+    handleSearch(query);
+  }, [location.search, handleSearch]);
+
+  const updateURL = (value) => {
+    const params = new URLSearchParams(location.search);
+    if (value) {
+      params.set("search", value);
+    } else {
+      params.delete("search");
+    }
+    navigate({ search: params.toString() });
+  };
+
+  const handleSearchKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch(inputValue);
+      disableDimming();
+      updateURL(inputValue);
+    }
   };
 
   const handleClear = () => {
     setInputValue("");
-    setSearchTerm("");
-    onClear();
+    handleClearSearch();
+    disableDimming();
+    updateURL("");
   };
 
   const handleFocus = () => {
-    onFocus();
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleSearch();
-    }
+    enableDimming();
   };
 
   const handleClickOutside = useCallback((e) => {
@@ -56,18 +74,14 @@ const SearchComponent = ({ searchTerm, setSearchTerm, onSearch, onClear, onFocus
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         onFocus={handleFocus}
-        onKeyPress={handleKeyPress}
+        onKeyPress={handleSearchKeyPress}
         placeholder="Search by ID, region, or subregion"
       />
-       {showClearButton && (
+      {showClearButton && (
         <button className="clear" onClick={handleClear}>
-          <FaTimes/>
+          <FaTimes />
         </button>
       )}
-      <button onClick={handleSearch}>
-        <FaSearch  />
-      </button>
-     
     </div>
   );
 };

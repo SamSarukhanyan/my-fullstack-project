@@ -1,5 +1,3 @@
-
-
 import express from "express";
 import cors from "cors";
 import db from "./models/index.js";
@@ -13,6 +11,8 @@ import adminRoutes from "./routes/admin.js";
 import homeRoutes from "./routes/properties.js";
 import authRoutes from "./routes/auth.js";
 import path from "path";
+import { WebSocketServer } from 'ws';
+import http from 'http';
 import addAdmin from "./utils/addAdmin.js";
 
 const app = express();
@@ -68,7 +68,9 @@ app.use("/api/admin", authenticateToken, authorizeAdmin, adminRoutes);
 app.use("/api", homeRoutes);
 
 const port = process.env.PORT || 4600;
-app.listen(port , async () => {
+const server = http.createServer(app);
+
+server.listen(port, async () => {
   try {
     await db.sequelize.sync();
     console.log(`Server is running on port ${port}`);
@@ -76,3 +78,16 @@ app.listen(port , async () => {
     console.log(error);
   }
 });
+
+// WebSocket сервер
+const wss = new WebSocketServer({ server });
+
+wss.on('connection', (ws) => {
+  ws.on('message', (message) => {
+    console.log('received:', message);
+  });
+
+  ws.send('Hello! You are connected to the WebSocket server.');
+});
+
+console.log('WebSocket server is running');

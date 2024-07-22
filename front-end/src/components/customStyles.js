@@ -3,6 +3,7 @@ export const customStyles = {
     ...provided,
     minWidth: state.selectProps.value ? "auto" : "100px",
     width: state.selectProps.value ? "auto" : "100px",
+    fontFamily: `Nunito', sans-serif`,
     height: "30px",
     transition: "border-color 100ms",
     cursor: "pointer",
@@ -37,7 +38,7 @@ export const customStyles = {
   menu: (provided, state) => ({
     ...provided,
     zIndex: 9999,
-    fontSize: "18px",
+    fontSize: "16px",
     width: "auto",
     opacity: state.selectProps.menuIsOpen ? 1 : 0,
     transform: state.selectProps.menuIsOpen
@@ -57,7 +58,7 @@ export const customStyles = {
     width: "auto",
     whiteSpace: "nowrap",
     padding: "10px 0px 10px 0px",
-    fontSize: "18px",
+    fontSize: "16px",
     boxShadow: "0px 0px 50px 25px #DEDEDE",
     borderRadius: "10px",
     height: "auto",
@@ -95,7 +96,7 @@ export const customStylesCurrency = {
     minWidth: "150px",
     transition: "border-color 100ms",
     cursor: "pointer",
-    fontSize: "15px",
+    fontSize: "16px",
     borderColor: "#ced4da",
     borderRadius: "6px", // Добавленный стиль для закругленных углов
 
@@ -114,7 +115,7 @@ export const customStylesCurrency = {
   }),
   option: (provided, state) => ({
     ...provided,
-    fontSize: "15px",
+    fontSize: "16px",
     padding: "5px 5px 8px 10px",
     height: "35px",
     transition: "background-color 100ms, color 100ms",
@@ -244,7 +245,7 @@ export const sortStyles = {
     width: "100%",
     whiteSpace: "nowrap",
     padding: "10px 0px 10px 0px",
-    fontSize: "16x",
+    fontSize: "16px",
     boxShadow: "0px 0px 15px 2px rgba(0, 0, 0, 0.185)",
     borderRadius: "10px",
     height: "auto",
@@ -287,7 +288,7 @@ export const sortStyles = {
       color: "#505050",
       whiteSpace: "nowrap",
       marginRight: "8px",
-      fontSize: "16x",
+      fontSize: "16px",
     },
   }),
   indicatorSeparator: () => ({
@@ -305,7 +306,7 @@ export const sortStyles = {
   }),
   placeholder: (provided, state) => ({
     ...provided,
-    fontSize: "16x",
+    fontSize: "16px",
     color: "#505050", // здесь изменяем цвет placeholder
   }),
 };
