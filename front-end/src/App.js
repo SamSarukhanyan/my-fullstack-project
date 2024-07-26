@@ -18,7 +18,7 @@ import { SearchProvider } from "./context/SearchContext"; // Import SearchProvid
 import HomeLayout from "./components/Common/homeLayout/HomeLayout";
 import React, { useRef } from "react";
 import CategoryProperties from "./components/Common/categoryProperties/CategoryProperties.jsx";
-import WebSocketClient from './WebSocketClient';
+// import WebSocketClient from './WebSocketClient';
 
 const queryClient = new QueryClient();
 
@@ -33,7 +33,7 @@ function App() {
             <DimmingProvider>
               <SearchProvider>
                 <Header />
-                <WebSocketClient />
+                {/* <WebSocketClient /> */}
                 <Routes>
                   <Route path="/login" element={<AdminLogin />} />
                   <Route path="/" element={<HomeLayout filterRef={filterRef} />}>

@@ -1,5 +1,5 @@
 .products_container {
-  border: 2px solid coral;
+  /* border: 2px solid coral; */
 }
 
 .grid_view .product_card_sceleton {
@@ -12,27 +12,27 @@
   width: 100%;
   display: flex;
   margin: 5px 0;
-  border: 4px solid red;
+  /* border: 4px solid red; */
   background-color: white;
 }
 .products_container .list_view .product_card_sceleton .product_images {
   width: 220px !important;
   height: 170px !important;
-  border: 2px solid blue;
+  /* border: 2px solid blue; */
   margin: 3px;
 }
 .products_container .list_view .product_card_sceleton .product_images .skeleton{
-  border: 2px solid rgb(241, 117, 169);
+  /* border: 2px solid rgb(241, 117, 169); */
   width: 212px !important;
   height: 162px !important;
 }
 
 .skeleton {
   border-radius: 10px;
-  border: 1px solid rgb(111, 0, 255);
+  /* border: 1px solid rgb(111, 0, 255); */
 }
 .products_container .list_view .product_card_sceleton .info_block {
-  border: 2px solid greenyellow;
+  /* border: 2px solid greenyellow; */
   width: 400px;
   display: flex;
   flex-direction: column;

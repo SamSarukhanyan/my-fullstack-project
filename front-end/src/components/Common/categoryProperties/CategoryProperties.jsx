@@ -174,7 +174,7 @@ const CategoryProperties = () => {
             <span>View in Map</span>
           </div>
           <div className={`products_block `}>
-            <h2>{category} - category</h2>
+            <h3>{category} - category</h3>
             <div className="category_count">
               <span>Search results - </span>
               <p>
@@ -242,7 +242,7 @@ const CategoryProperties = () => {
                     <PropertyCard key={property.id} property={property} />
                   ))
                 ) : (
-                  <h2>{"По вашему запросу ничего не найдено"} </h2>
+                  <h2>{" По вашему запросу ничего не найдено :-( "} </h2>
                 )}
               </div>
             )}

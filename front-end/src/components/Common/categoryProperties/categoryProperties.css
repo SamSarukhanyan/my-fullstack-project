@@ -7,7 +7,7 @@
   align-items: center;
   color: rgb(99, 112, 103);
   font-size: 16px;
-  border: 1px solid black;
+  /* border: 1px solid black; */
 }
 .category_count p {
   margin-left: 5px;
@@ -20,7 +20,7 @@
   justify-content: start;
   margin-bottom: 2px;
   font-size: 16px;
-  border: 1px solid red;
+  /* border: 1px solid red; */
 }
 
 @media (max-width: 1308px){
@@ -41,8 +41,17 @@
   color: rgb(161, 161, 161);
 }
 .center_2 {
-  border: 1px solid black;
+  /* border: 1px solid black; */
   display: flex;
   align-items: center;
+}
+
+.products_block h3{
+  width: 100%;
+  text-align: center !important;
+  border-radius: 8px;
+  font-size: 20px;
+  margin-bottom: 10px;
+  /* border: 3px solid rgb(0, 119, 255); */
 }
 

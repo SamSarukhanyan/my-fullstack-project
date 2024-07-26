@@ -1,6 +1,7 @@
 .adminHome_section {
    width: 100%;
-   margin: auto;
+   margin: 70px auto;
+   padding-top: 10px;
    background-color: rgb(235, 232, 232);
    display: flex;
    flex-direction: column;
