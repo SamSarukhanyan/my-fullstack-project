@@ -25,8 +25,9 @@ export const addProperty = async (req, res) => {
 
     let coordinates = { lat: null, lng: null };
 
-    if (lat && lng) {
-      coordinates = { lat, lng };
+    // Проверка на корректность координат
+    if (lat && !isNaN(parseFloat(lat)) && lng && !isNaN(parseFloat(lng))) {
+      coordinates = { lat: parseFloat(lat), lng: parseFloat(lng) };
     } else {
       const address = `${subregion}, ${region}`;
       coordinates = await geocodeAddress(address);
@@ -116,9 +117,9 @@ export const updateProperty = async (req, res) => {
 
     let coordinates = { lat: property.lat, lng: property.lng };
 
-    if (lat && lng) {
-      coordinates = { lat, lng };
-    } else {
+    if (lat && !isNaN(parseFloat(lat)) && lng && !isNaN(parseFloat(lng))) {
+      coordinates = { lat: parseFloat(lat), lng: parseFloat(lng) };
+    }  else {
       const address = `${subregion}, ${region}`;
       coordinates = await geocodeAddress(address);
     }

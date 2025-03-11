@@ -71,7 +71,9 @@ const port = process.env.PORT || 4600;
 const server = http.createServer(app);
 
 server.listen(port, async () => {
+  
   try {
+    // await addAdmin()
     await db.sequelize.sync();
     console.log(`Server is running on port ${port}`);
   } catch (error) {
